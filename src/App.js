@@ -397,7 +397,7 @@ const Portfolio = () => {
           <nav className="flex justify-between items-center mb-12">
             <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse relative">
               <span className="inline-block animate-bounce">&lt;</span>
-              Fayaz
+              WELLCOME TO MY PORTFOLIO
               <span className="inline-block animate-bounce" style={{ animationDelay: '0.1s' }}>/</span>
               <span className="inline-block animate-bounce" style={{ animationDelay: '0.2s' }}>&gt;</span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
@@ -438,7 +438,7 @@ const Portfolio = () => {
             
             <h1 className={`text-6xl md:text-7xl font-bold mb-6 transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} relative`}>
-                Hello,
+                Hello, I'm Fayaz
                 <div className={`absolute inset-0 ${isDarkMode ? 'text-white' : 'text-gray-900'} blur-sm opacity-50 -z-10`}></div>
               </span>
               <br />
@@ -478,7 +478,7 @@ const Portfolio = () => {
             
             <div className={`flex flex-wrap justify-center gap-4 mt-8 transition-all duration-1000 delay-700 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <a
-                href="https://github.com/fayaz-username"
+                href="https://github.com/fayaz-24"
                 className={`group relative flex items-center gap-3 ${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50' : 'bg-white/50 hover:bg-gray-100/50'} ${isDarkMode ? 'text-white' : 'text-gray-900'} px-6 py-3 rounded-full transition-all duration-500 hover:scale-110 border ${isDarkMode ? 'border-gray-600/50' : 'border-gray-300/50'} shadow-lg shadow-gray-800/50 hover:shadow-gray-600/50 overflow-hidden backdrop-blur-sm`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -486,7 +486,7 @@ const Portfolio = () => {
                 <span className="relative z-10 font-bold">GitHub</span>
               </a>
               <a
-                href="https://linkedin.com/in/fayaz-username"
+                href="https://www.linkedin.com/in/fayaz024"
                 className="group relative flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-6 py-3 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-blue-600/50 hover:shadow-blue-500/50 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -494,7 +494,7 @@ const Portfolio = () => {
                 <span className="relative z-10 font-bold">LinkedIn</span>
               </a>
               <a
-                href="https://instagram.com/fayaz-username"
+                href="https://instagram.com/fayaz_crush._"
                 className="group relative flex items-center gap-3 bg-gradient-to-r from-pink-600 to-purple-700 hover:from-pink-500 hover:to-purple-600 text-white px-6 py-3 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-pink-600/50 hover:shadow-pink-500/50 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
