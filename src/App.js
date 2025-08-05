@@ -905,16 +905,16 @@ const handleSubmit = async (e) => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
-                  href: "mailto:fayaz.dev@example.com",
+                  href: "fayazfai987@gmail.com",
                   icon: Mail,
                   title: "Email",
-                  subtitle: "fayaz.dev@example.com",
+                  subtitle: "For queries ",
                   gradient: "from-red-500 to-pink-500",
                   shadow: "shadow-red-500/25",
                   hoverShadow: "hover:shadow-[0_0_50px_rgba(239,68,68,0.4)]"
                 },
                 {
-                  href: "https://linkedin.com/in/fayaz-username",
+                  href: "https://www.linkedin.com/in/fayaz024",
                   icon: Linkedin,
                   title: "LinkedIn",
                   subtitle: "Professional Network",
@@ -923,7 +923,7 @@ const handleSubmit = async (e) => {
                   hoverShadow: "hover:shadow-[0_0_50px_rgba(59,130,246,0.4)]"
                 },
                 {
-                  href: "https://github.com/fayaz-username",
+                  href: "https://github.com/Fayaz-24",
                   icon: Github,
                   title: "GitHub",
                   subtitle: "Code Repository",
@@ -932,7 +932,7 @@ const handleSubmit = async (e) => {
                   hoverShadow: "hover:shadow-[0_0_50px_rgba(107,114,128,0.4)]"
                 },
                 {
-                  href: "https://instagram.com/fayaz-username",
+                  href: "https://instagram.com/fayaz_crush._",
                   icon: Instagram,
                   title: "Instagram",
                   subtitle: "Creative Journey",
@@ -1046,10 +1046,10 @@ const handleSubmit = async (e) => {
             </p>
             <div className="flex justify-center gap-6 mb-6">
               {[
-                { icon: Github, href: "https://github.com/fayaz-username", label: "GitHub" },
-                { icon: Linkedin, href: "https://linkedin.com/in/fayaz-username", label: "LinkedIn" },
-                { icon: Instagram, href: "https://instagram.com/fayaz-username", label: "Instagram" },
-                { icon: Mail, href: "mailto:fayaz.dev@example.com", label: "Email" }
+                { icon: Github, href: "https://github.com/Fayaz-24", label: "GitHub" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/fayaz024", label: "LinkedIn" },
+                { icon: Instagram, href: "https://instagram.com/fayaz_crush._", label: "Instagram" },
+                { icon: Mail, href: "fayazfai987@gmail.com", label: "Email" }
               ].map((social, index) => (
                 <a
                   key={index}
