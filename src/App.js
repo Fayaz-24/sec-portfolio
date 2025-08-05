@@ -746,7 +746,7 @@ const handleSubmit = async (e) => {
             <div className="text-center mb-16">
               <h2 className="text-5xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
-                  Let's Build Something Amazing
+                  Inbox is Open — Let’s Build!
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
                 </span>
               </h2>
