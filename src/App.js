@@ -75,51 +75,6 @@ const Portfolio = () => {
       techIcons: [Bot, TrendingUp, Brain, Shield],
       glowColor: 'yellow',
       complexity: 'Expert'
-    },
-    {
-      id: 4,
-      title: 'Smart IoT Home Management',
-      description: 'Complete IoT ecosystem for smart homes with device control, energy monitoring, security systems, and AI-powered automation. Includes mobile app and voice control integration.',
-      technologies: ['React Native', 'Node.js', 'MQTT', 'InfluxDB', 'AWS IoT', 'TensorFlow', 'Raspberry Pi', 'Arduino'],
-      role: 'IoT Full Stack Developer',
-      github: 'https://github.com/fayaz-username/smart-home-iot',
-      demo: 'https://smart-home-fayaz.web.app',
-      image: 'from-purple-400 via-pink-500 to-rose-600',
-      stats: { stars: 198, forks: 54, views: 6800, users: '1.2K' },
-      features: ['Device Control', 'Energy Monitor', 'Security System', 'Voice Control'],
-      techIcons: [Cpu, Shield, Zap, Smartphone],
-      glowColor: 'purple',
-      complexity: 'Advanced'
-    },
-    {
-      id: 5,
-      title: 'Decentralized Social Network',
-      description: 'Blockchain-based social platform with end-to-end encryption, decentralized storage, NFT integration, and crypto rewards. Built on Ethereum with IPFS for content distribution.',
-      technologies: ['React', 'Solidity', 'Web3.js', 'IPFS', 'Node.js', 'MongoDB', 'Ethereum', 'MetaMask'],
-      role: 'Blockchain Full Stack Developer',
-      github: 'https://github.com/fayaz-username/decentralized-social',
-      demo: 'https://decentral-social-fayaz.vercel.app',
-      image: 'from-indigo-400 via-blue-500 to-purple-600',
-      stats: { stars: 278, forks: 76, views: 9200, users: '2.7K' },
-      features: ['Blockchain Security', 'NFT Integration', 'Crypto Rewards', 'Decentralized Storage'],
-      techIcons: [Lock, Globe, Heart, Star],
-      glowColor: 'indigo',
-      complexity: 'Expert'
-    },
-    {
-      id: 6,
-      title: 'AI Health Monitoring System',
-      description: 'Advanced healthcare platform with wearable device integration, AI diagnostics, telemedicine, and predictive health analytics. Features real-time health monitoring and emergency alerts.',
-      technologies: ['React', 'Python', 'TensorFlow', 'Node.js', 'WebRTC', 'MongoDB', 'AWS Lambda', 'IoT Sensors'],
-      role: 'HealthTech Full Stack Developer',
-      github: 'https://github.com/fayaz-username/ai-health-monitor',
-      demo: 'https://health-ai-fayaz.netlify.app',
-      image: 'from-green-400 via-emerald-500 to-teal-600',
-      stats: { stars: 189, forks: 43, views: 7100, users: '1.5K' },
-      features: ['AI Diagnostics', 'Wearable Integration', 'Telemedicine', 'Emergency Alerts'],
-      techIcons: [Heart, Brain, Monitor, Shield],
-      glowColor: 'green',
-      complexity: 'Advanced'
     }
   ];
 
