@@ -38,11 +38,32 @@ const handleSubmit = async (e) => {
   setSubmitStatus(null);
   
   try {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log('Form submitted:', formData);
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setSubmitStatus(null), 5000);
+    // 🔥 REPLACE 'YOUR_FORM_ID' WITH YOUR ACTUAL FORMSPREE FORM ID
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgvznzqn';
+    
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        _replyto: formData.email,
+        _subject: `Portfolio Contact from ${formData.name}`
+      })
+    });
+
+    if (response.ok) {
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } else {
+      throw new Error('Failed to send email');
+    }
+    
   } catch (error) {
     console.error('Form submission error:', error);
     setSubmitStatus('error');
@@ -50,6 +71,7 @@ const handleSubmit = async (e) => {
   } finally {
     setIsSubmitting(false);
   }
+  
 };
 
   const skills = [
