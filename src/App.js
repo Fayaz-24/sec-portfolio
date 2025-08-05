@@ -751,6 +751,152 @@ const Portfolio = () => {
           </div>
         </div>
       </section>
+      {/* Contact Form Section */}
+      <section className="relative z-10 py-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
+                  Let's Build Something Amazing
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
+                </span>
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-8 rounded-full animate-pulse"></div>
+              <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-8 max-w-3xl mx-auto leading-relaxed`}>
+                Ready to collaborate on <span className="text-cyan-400 font-semibold animate-pulse">innovative projects</span>? 
+                Let's connect and create <span className="text-purple-400 font-semibold animate-pulse">extraordinary digital experiences</span> together!
+              </p>
+            </div>
+            
+            {/* Contact Form Card */}
+            <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-3xl p-8 md:p-12 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 relative overflow-hidden`}>
+              {/* Background Effects */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-3xl animate-pulse"></div>
+              <div className="absolute inset-0 opacity-10">
+                {[...Array(12)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                      animationDelay: `${i * 0.5}s`,
+                      animationDuration: `${2 + Math.random() * 2}s`
+                    }}
+                  />
+                ))}
+              </div>
+              
+              {/* Form Header */}
+              <div className="flex items-center gap-4 mb-8 relative z-10">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse shadow-lg shadow-cyan-500/25">
+                  <Mail className="text-white" size={24} />
+                </div>
+                <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Send Me a Message
+                </h3>
+              </div>
+              
+              {/* Contact Form */}
+              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                {/* Success/Error Messages */}
+                {submitStatus && (
+                  <div className={`p-4 rounded-2xl border flex items-center gap-3 animate-pulse ${
+                    submitStatus === 'success' 
+                      ? 'bg-green-500/20 border-green-500/50 text-green-300' 
+                      : 'bg-red-500/20 border-red-500/50 text-red-300'
+                  }`}>
+                    {submitStatus === 'success' ? (
+                      <>
+                        <CheckCircle size={20} />
+                        <span>Message sent successfully! I'll get back to you soon.</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertCircle size={20} />
+                        <span>Failed to send message. Please try again or contact me directly.</span>
+                      </>
+                    )}
+                  </div>
+                )}
+                
+                {/* Name Input */}
+                <div className="group">
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Your Name"
+                    className={`w-full p-5 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-lg group-hover:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                
+                {/* Email Input */}
+                <div className="group">
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="Your Email"
+                    className={`w-full p-5 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-lg group-hover:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                
+                {/* Message Textarea */}
+                <div className="group">
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Your Message"
+                    rows="6"
+                    className={`w-full p-5 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-lg resize-none group-hover:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    required
+                    disabled={isSubmitting}
+                  ></textarea>
+                </div>
+                
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group relative w-full flex items-center justify-center gap-3 bg-gradient-to-r from-cyan-600 to-pink-600 hover:from-cyan-500 hover:to-pink-500 text-white p-5 rounded-2xl transition-all duration-500 hover:scale-[1.02] shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 overflow-hidden font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-pink-600 rounded-2xl blur opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10"></div>
+                  <span className="relative z-10 flex items-center gap-3">
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
+                        Send Message
+                        <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </>
+                    )}
+                  </span>
+                </button>
+              </form>
+              
+              {/* Decorative Elements */}
+              <div className="absolute top-6 right-6 w-20 h-20 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute bottom-6 left-6 w-16 h-16 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Contact Section */}
       <section id="contact" className="relative z-10 py-20">
