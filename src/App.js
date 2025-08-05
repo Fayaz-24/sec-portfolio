@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi } from 'lucide-react';
-
+import { Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi, CheckCircle, AlertCircle, Send } from 'lucide-react';
 const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  message: ''
+});
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [submitStatus, setSubmitStatus] = useState(null);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -17,7 +23,34 @@ const Portfolio = () => {
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
-  };
+     };
+  const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitStatus(null);
+  
+  try {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log('Form submitted:', formData);
+    setSubmitStatus('success');
+    setFormData({ name: '', email: '', message: '' });
+    setTimeout(() => setSubmitStatus(null), 5000);
+  } catch (error) {
+    console.error('Form submission error:', error);
+    setSubmitStatus('error');
+    setTimeout(() => setSubmitStatus(null), 5000);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const skills = [
     { name: 'React', level: 95, color: 'from-cyan-400 to-blue-500', neon: 'shadow-[0_0_30px_rgba(6,182,212,0.5)]' },
