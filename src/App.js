@@ -430,9 +430,7 @@ const handleSubmit = async (e) => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-2xl opacity-25 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-3xl opacity-15 animate-pulse" style={{ animationDelay: '1s' }}></div>
               
-              <div className={`absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full border-4 ${isDarkMode ? 'border-black' : 'border-white'} animate-bounce shadow-lg shadow-green-500/50 flex items-center justify-center`}>
-                <div className="w-4 h-4 rounded-full bg-green-300 animate-ping"></div>
-              </div>
+              
               
               {/* Orbiting elements with enhanced animations */}
               <div className="absolute inset-0" style={{ animation: 'spin 20s linear infinite' }}>
