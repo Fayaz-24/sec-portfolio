@@ -759,6 +759,282 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+// Add these to your existing state variables
+const [comments, setComments] = useState([]);
+const [commentForm, setCommentForm] = useState({
+  name: '',
+  message: '',
+  photo: null
+});
+const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
+// Add these handler functions
+const handleCommentInputChange = (e) => {
+  const { name, value } = e.target;
+  setCommentForm(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
+
+const handlePhotoUpload = (e) => {
+  const file = e.target.files[0];
+  if (file && file.size <= 5 * 1024 * 1024) { // 5MB limit
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setCommentForm(prev => ({
+        ...prev,
+        photo: event.target.result
+      }));
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const handleCommentSubmit = async (e) => {
+  e.preventDefault();
+  if (!commentForm.name.trim() || !commentForm.message.trim()) return;
+  
+  setIsSubmittingComment(true);
+  
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const newComment = {
+      id: Date.now(),
+      name: commentForm.name.trim(),
+      message: commentForm.message.trim(),
+      photo: commentForm.photo,
+      date: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
+      timestamp: Date.now()
+    };
+    
+    setComments(prev => [newComment, ...prev]);
+    setCommentForm({ name: '', message: '', photo: null });
+    
+    // Reset file input
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) fileInput.value = '';
+    
+  } catch (error) {
+    console.error('Comment submission error:', error);
+  } finally {
+    setIsSubmittingComment(false);
+  }
+};
+
+// Comment Section JSX - Add this above your contact form section
+<section className="relative z-10 py-20">
+  <div className="container mx-auto px-6">
+    <div className="max-w-4xl mx-auto">
+      {/* Community Thoughts Section */}
+      <div className="mb-20">
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
+              Community Thoughts
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
+            </span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-6 rounded-full animate-pulse"></div>
+          <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto leading-relaxed`}>
+            Share your thoughts, feedback, or just say hello! 
+            <span className="text-cyan-400 font-semibold animate-pulse"> Your comments</span> help build this community.
+          </p>
+        </div>
+
+        {/* Comment Form */}
+        <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-3xl p-8 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 relative overflow-hidden mb-12`}>
+          {/* Background Effects */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-3xl animate-pulse"></div>
+          
+          {/* Form Header */}
+          <div className="flex items-center gap-4 mb-6 relative z-10">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse shadow-lg shadow-cyan-500/25">
+              <Heart className="text-white" size={24} />
+            </div>
+            <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Leave a Comment
+            </h3>
+            {comments.length > 0 && (
+              <div className={`ml-auto px-4 py-2 rounded-full ${isDarkMode ? 'bg-cyan-500/20' : 'bg-cyan-500/10'} border border-cyan-500/30 animate-pulse`}>
+                <span className="text-cyan-400 font-bold">{comments.length} Comment{comments.length !== 1 ? 's' : ''}</span>
+              </div>
+            )}
+          </div>
+
+          <form onSubmit={handleCommentSubmit} className="space-y-6 relative z-10">
+            {/* Name Input */}
+            <div className="group">
+              <input
+                type="text"
+                name="name"
+                value={commentForm.name}
+                onChange={handleCommentInputChange}
+                placeholder="Your Name"
+                className={`w-full p-5 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-lg group-hover:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed`}
+                required
+                disabled={isSubmittingComment}
+              />
+            </div>
+
+            {/* Photo Upload */}
+            <div className="group">
+              <label className={`block text-sm font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>
+                Profile Photo (optional)
+              </label>
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                  id="photo-upload"
+                  disabled={isSubmittingComment}
+                />
+                <label
+                  htmlFor="photo-upload"
+                  className={`group/upload cursor-pointer flex items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed ${isDarkMode ? 'border-gray-600/50 hover:border-cyan-500/50 bg-gray-800/30' : 'border-gray-300/50 hover:border-cyan-500/50 bg-gray-100/30'} transition-all duration-300 hover:scale-[1.02] ${isSubmittingComment ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <div className="text-center">
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center group-hover/upload:animate-pulse">
+                      {commentForm.photo ? (
+                        <img src={commentForm.photo} alt="Preview" className="w-full h-full rounded-full object-cover" />
+                      ) : (
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      )}
+                    </div>
+                    <div className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} font-medium`}>
+                      {commentForm.photo ? 'Change Photo' : 'Choose Photo'}
+                    </div>
+                    <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
+                      Max size: 5MB
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {/* Message Textarea */}
+            <div className="group">
+              <textarea
+                name="message"
+                value={commentForm.message}
+                onChange={handleCommentInputChange}
+                placeholder="Write your message here..."
+                rows="4"
+                className={`w-full p-5 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-lg resize-none group-hover:border-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed`}
+                required
+                disabled={isSubmittingComment}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSubmittingComment || !commentForm.name.trim() || !commentForm.message.trim()}
+              className="group relative w-full flex items-center justify-center gap-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white p-5 rounded-2xl transition-all duration-500 hover:scale-[1.02] shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 overflow-hidden font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <span className="relative z-10 flex items-center gap-3">
+                {isSubmittingComment ? (
+                  <>
+                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Posting...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
+                    Post Comment
+                    <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </>
+                )}
+              </span>
+            </button>
+          </form>
+        </div>
+
+        {/* Comments Display */}
+        {comments.length > 0 && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-6">
+              <h3 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Comments ({comments.length})
+              </h3>
+              <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/50 to-purple-500/50"></div>
+            </div>
+            
+            {comments.map((comment) => (
+              <div key={comment.id} className={`group ${isDarkMode ? 'bg-gray-900/30' : 'bg-white/60'} backdrop-blur-sm rounded-2xl p-6 border ${isDarkMode ? 'border-gray-700/30' : 'border-gray-200/30'} hover:border-cyan-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 relative overflow-hidden`}>
+                {/* Background glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Comment Header */}
+                <div className="flex items-start gap-4 mb-4 relative z-10">
+                  <div className="flex-shrink-0">
+                    {comment.photo ? (
+                      <img 
+                        src={comment.photo} 
+                        alt={comment.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-cyan-500/30 shadow-lg shadow-cyan-500/25"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-cyan-500/25">
+                        {comment.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h4 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'} group-hover:text-cyan-400 transition-colors`}>
+                        {comment.name}
+                      </h4>
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Clock size={14} className="animate-pulse" />
+                        <span>{comment.date}</span>
+                      </div>
+                    </div>
+                    
+                    <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed group-hover:text-gray-200 transition-colors`}>
+                      {comment.message}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Floating particles on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  {[...Array(6)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                      style={{
+                        left: `${20 + Math.random() * 60}%`,
+                        top: `${20 + Math.random() * 60}%`,
+                        animationDelay: `${i * 0.3}s`,
+                        animationDuration: '2s'
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
       {/* Contact Form Section */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-6">
