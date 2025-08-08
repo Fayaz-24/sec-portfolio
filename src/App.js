@@ -1,5 +1,469 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, Calendar, ThumbsUp } from 'lucide-react';
+const CommentSection = ({ isDarkMode }) => {
+  const [comments, setComments] = useState([
+    {
+      id: 1,
+      name: 'fayaz',
+      message: 'you are so smart and handsome🥰 and intelligent',
+      date: 'Jul 23, 2025',
+      avatar: null,
+      likes: 5,
+      replies: []
+    },
+    {
+      id: 2,
+      name: 'Sarah Johnson',
+      message: 'Amazing portfolio! Your projects are incredibly impressive. The AI-powered e-commerce platform caught my attention. Would love to collaborate!',
+      date: 'Jul 22, 2025',
+      avatar: null,
+      likes: 12,
+      replies: [
+        {
+          id: 101,
+          name: 'Fayaz',
+          message: 'Thank you so much Sarah! I would love to discuss collaboration opportunities.',
+          date: 'Jul 22, 2025',
+          likes: 3
+        }
+      ]
+    },
+    {
+      id: 3,
+      name: 'Alex Rodriguez',
+      message: 'The real-time collaboration suite is exactly what our team needs. Your MERN stack skills are outstanding! 🚀',
+      date: 'Jul 21, 2025',
+      avatar: null,
+      likes: 8,
+      replies: []
+    }
+  ]);
+
+  const [newComment, setNewComment] = useState({
+    name: '',
+    message: '',
+    profilePhoto: null
+  });
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [commentStatus, setCommentStatus] = useState(null);
+  const [likedComments, setLikedComments] = useState(new Set());
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [replyText, setReplyText] = useState('');
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!newComment.name.trim() || !newComment.message.trim()) return;
+
+    setIsSubmittingComment(true);
+    setCommentStatus(null);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const comment = {
+        id: Date.now(),
+        name: newComment.name,
+        message: newComment.message,
+        date: new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        }),
+        avatar: newComment.profilePhoto,
+        likes: 0,
+        replies: []
+      };
+
+      setComments([comment, ...comments]);
+      setNewComment({ name: '', message: '', profilePhoto: null });
+      setCommentStatus('success');
+      setTimeout(() => setCommentStatus(null), 3000);
+    } catch (error) {
+      setCommentStatus('error');
+      setTimeout(() => setCommentStatus(null), 3000);
+    } finally {
+      setIsSubmittingComment(false);
+    }
+  };
+
+  const handleLike = (commentId) => {
+    const newLikedComments = new Set(likedComments);
+    if (newLikedComments.has(commentId)) {
+      newLikedComments.delete(commentId);
+      setComments(comments.map(comment => 
+        comment.id === commentId 
+          ? { ...comment, likes: comment.likes - 1 }
+          : comment
+      ));
+    } else {
+      newLikedComments.add(commentId);
+      setComments(comments.map(comment => 
+        comment.id === commentId 
+          ? { ...comment, likes: comment.likes + 1 }
+          : comment
+      ));
+    }
+    setLikedComments(newLikedComments);
+  };
+
+  const handleReply = (commentId) => {
+    if (!replyText.trim()) return;
+    
+    const reply = {
+      id: Date.now(),
+      name: 'You',
+      message: replyText,
+      date: new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      }),
+      likes: 0
+    };
+
+    setComments(comments.map(comment => 
+      comment.id === commentId 
+        ? { ...comment, replies: [...comment.replies, reply] }
+        : comment
+    ));
+    
+    setReplyText('');
+    setReplyingTo(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewComment(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size <= 5 * 1024 * 1024) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewComment(prev => ({
+          ...prev,
+          profilePhoto: e.target.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  return (
+    <section className="relative z-10 py-20">
+      <div className="container mx-auto px-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Comments Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
+                Community Thoughts
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
+              </span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-8 rounded-full animate-pulse"></div>
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <MessageCircle className="text-cyan-400 animate-pulse" size={24} />
+              <span className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <span className="text-cyan-400 font-bold animate-pulse">{comments.length}</span> Comments
+              </span>
+            </div>
+          </div>
+
+          {/* Comment Input Section */}
+          <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-3xl p-8 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 mb-12 relative overflow-hidden`}>
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-3xl animate-pulse"></div>
+            <div className="absolute inset-0 opacity-10">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="flex items-center gap-4 mb-6 relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse shadow-lg shadow-cyan-500/25">
+                <MessageCircle className="text-white" size={24} />
+              </div>
+              <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Leave a Comment
+              </h3>
+            </div>
+
+            {/* Success/Error Messages */}
+            {commentStatus && (
+              <div className={`p-4 rounded-2xl border flex items-center gap-3 animate-pulse mb-6 relative z-10 ${
+                commentStatus === 'success' 
+                  ? 'bg-green-500/20 border-green-500/50 text-green-300' 
+                  : 'bg-red-500/20 border-red-500/50 text-red-300'
+              }`}>
+                {commentStatus === 'success' ? (
+                  <>
+                    <CheckCircle size={20} />
+                    <span>Comment posted successfully! Thank you for your feedback.</span>
+                  </>
+                ) : (
+                  <>
+                    <AlertCircle size={20} />
+                    <span>Failed to post comment. Please try again.</span>
+                  </>
+                )}
+              </div>
+            )}
+
+            <div className="space-y-6 relative z-10">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="group">
+                  <input
+                    type="text"
+                    name="name"
+                    value={newComment.name}
+                    onChange={handleInputChange}
+                    placeholder="Your Name"
+                    className={`w-full p-4 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 group-hover:border-cyan-500/50 disabled:opacity-50`}
+                    required
+                    disabled={isSubmittingComment}
+                  />
+                  <div className={`h-1 w-0 group-focus-within:w-full bg-gradient-to-r from-cyan-400 to-purple-500 transition-all duration-500 rounded-full mt-1`}></div>
+                </div>
+
+                <div className="group">
+                  <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>
+                    Profile Photo (optional)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileSelect}
+                      className="hidden"
+                      id="profile-photo"
+                      disabled={isSubmittingComment}
+                    />
+                    <label
+                      htmlFor="profile-photo"
+                      className={`flex items-center justify-center gap-2 p-4 rounded-2xl ${isDarkMode ? 'bg-gray-800/60 hover:bg-gray-700/60' : 'bg-gray-100/60 hover:bg-gray-200/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} border-dashed hover:border-cyan-500/50 transition-all duration-300 cursor-pointer group-hover:scale-[1.02]`}
+                    >
+                      <Image size={20} className="text-cyan-400" />
+                      <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        {newComment.profilePhoto ? 'Photo Selected' : 'Choose Photo'}
+                      </span>
+                    </label>
+                    <div className="text-xs text-gray-500 mt-1 text-center">Max size: 5MB</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group">
+                <textarea
+                  name="message"
+                  value={newComment.message}
+                  onChange={handleInputChange}
+                  placeholder="Write your message here..."
+                  rows="4"
+                  className={`w-full p-4 rounded-2xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 resize-none group-hover:border-cyan-500/50 disabled:opacity-50`}
+                  required
+                  disabled={isSubmittingComment}
+                ></textarea>
+                <div className={`h-1 w-0 group-focus-within:w-full bg-gradient-to-r from-cyan-400 to-purple-500 transition-all duration-500 rounded-full mt-1`}></div>
+              </div>
+
+              <button
+                onClick={handleCommentSubmit}
+                disabled={isSubmittingComment}
+                className="group relative w-full flex items-center justify-center gap-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white p-4 rounded-2xl transition-all duration-500 hover:scale-[1.02] shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 overflow-hidden font-bold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <span className="relative z-10 flex items-center gap-3">
+                  {isSubmittingComment ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Posting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+                      Post Comment
+                    </>
+                  )}
+                </span>
+              </button>
+            </div>
+          </div>
+{/* Comments Display */}
+          <div className="space-y-6">
+            {comments.map((comment, index) => (
+              <div
+                key={comment.id}
+                className={`group ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl p-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 shadow-lg hover:shadow-cyan-500/10 relative overflow-hidden transform hover:-translate-y-1`}
+                style={{
+                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+                }}
+              >
+                {/* Animated background particles */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  {[...Array(6)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                      style={{
+                        left: `${20 + Math.random() * 60}%`,
+                        top: `${20 + Math.random() * 60}%`,
+                        animationDelay: `${i * 0.3}s`,
+                        animationDuration: '2s'
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-start gap-4 relative z-10">
+                  {/* Avatar */}
+                  <div className="relative group/avatar">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:shadow-cyan-500/50 transition-all duration-300 group-hover:scale-110">
+                      {comment.avatar ? (
+                        <img src={comment.avatar} alt={comment.name} className="w-full h-full rounded-full object-cover" />
+                      ) : (
+                        <User className="text-white" size={20} />
+                      )}
+                    </div>
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 blur opacity-0 group-hover/avatar:opacity-50 transition-opacity duration-300 -z-10"></div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <h4 className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'} group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 transition-all duration-300`}>
+                        {comment.name}
+                      </h4>
+                      <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+                        {comment.date}
+                      </span>
+                    </div>
+
+                    <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed mb-4 group-hover:${isDarkMode ? 'text-gray-100' : 'text-gray-900'} transition-colors duration-300`}>
+                      {comment.message}
+                    </p>
+
+                    {/* Comment Actions */}
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={() => handleLike(comment.id)}
+                        className={`group/like flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 hover:scale-105 ${
+                          likedComments.has(comment.id)
+                            ? 'bg-red-500/20 text-red-400 border border-red-500/50'
+                            : `${isDarkMode ? 'bg-gray-800/50 hover:bg-red-500/20 text-gray-400 hover:text-red-400' : 'bg-gray-200/50 hover:bg-red-500/20 text-gray-600 hover:text-red-400'} border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} hover:border-red-500/50`
+                        }`}
+                      >
+                        <ThumbsUp 
+                          size={16} 
+                          className={`transition-transform duration-300 ${likedComments.has(comment.id) ? 'scale-110' : 'group-hover/like:scale-110'}`} 
+                        />
+                        <span className="font-medium">{comment.likes}</span>
+                      </button>
+
+                      <button
+                        onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
+                        className={`group/reply flex items-center gap-2 px-3 py-2 rounded-full ${isDarkMode ? 'bg-gray-800/50 hover:bg-cyan-500/20 text-gray-400 hover:text-cyan-400' : 'bg-gray-200/50 hover:bg-cyan-500/20 text-gray-600 hover:text-cyan-400'} border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} hover:border-cyan-500/50 transition-all duration-300 hover:scale-105`}
+                      >
+                        <Reply size={16} className="group-hover/reply:scale-110 transition-transform duration-300" />
+                        <span className="font-medium">Reply</span>
+                      </button>
+                    </div>
+
+                    {/* Reply Input */}
+                    {replyingTo === comment.id && (
+                      <div className="mt-4 p-4 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-xl border border-cyan-500/30 animate-fadeIn">
+                        <div className="flex gap-3">
+                          <input
+                            type="text"
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            placeholder="Write a reply..."
+                            className={`flex-1 p-3 rounded-xl ${isDarkMode ? 'bg-gray-800/60' : 'bg-gray-100/60'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} ${isDarkMode ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} focus:outline-none focus:border-cyan-500/70 transition-all duration-300`}
+                            onKeyPress={(e) => e.key === 'Enter' && handleReply(comment.id)}
+                          />
+                          <button
+                            onClick={() => handleReply(comment.id)}
+                            className="px-4 py-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white rounded-xl transition-all duration-300 hover:scale-105 shadow-lg shadow-cyan-500/25"
+                          >
+                            <Send size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Replies */}
+                    {comment.replies.length > 0 && (
+                      <div className="mt-4 space-y-3 border-l-2 border-cyan-500/30 pl-4">
+                        {comment.replies.map((reply) => (
+                          <div key={reply.id} className={`p-3 rounded-xl ${isDarkMode ? 'bg-gray-800/30' : 'bg-gray-100/30'} backdrop-blur-sm border ${isDarkMode ? 'border-gray-700/30' : 'border-gray-300/30'} animate-fadeIn`}>
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="w-6 h-6 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 flex items-center justify-center">
+                                <User className="text-white" size={12} />
+                              </div>
+                              <span className={`font-medium text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{reply.name}</span>
+                              <span className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{reply.date}</span>
+                            </div>
+                            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{reply.message}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Neon border effect on hover */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-cyan-400/20 transition-all duration-500 pointer-events-none"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Load More Button */}
+          <div className="text-center mt-12">
+            <button className="group relative flex items-center gap-3 bg-gradient-to-r from-gray-800/50 to-gray-700/50 hover:from-cyan-600/20 hover:to-purple-600/20 text-white px-8 py-4 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-gray-500/25 hover:shadow-cyan-500/25 overflow-hidden font-bold backdrop-blur-sm border border-gray-600/50 hover:border-cyan-500/50 mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <MessageCircle size={20} className="relative z-10 group-hover:rotate-12 transition-transform" />
+              <span className="relative z-10">Load More Comments</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Custom CSS Animations */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
+    </section>
+  );
+};
 const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
