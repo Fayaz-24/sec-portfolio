@@ -1567,7 +1567,7 @@ const handleSubmit = async (e) => {
               ))}
             </div>
             <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-              © 2024 Fayaz. Crafted with ?? and lots of ?
+              © 2025 FAYAZ. All rights reserved. Made with <span className="animate-pulse">💜</span> and passion.
             </p>
           </div>
         </div>
