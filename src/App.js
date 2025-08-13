@@ -927,32 +927,64 @@ const handleSubmit = async (e) => {
               <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-ping" style={{ animationDelay: '1s' }}></div>
             </div>
             
-     <h1
+            <h1
   className={`text-6xl md:text-7xl font-bold mb-6 ${
     isLoaded ? 'animate-fade-scale' : 'opacity-0 scale-90'
   }`}
 >
   <span
-    className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative"
+    className="relative inline-block bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient animate-float"
   >
     I'm Fayaz
-    {/* Glow layer */}
-    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-md opacity-50 -z-10"></div>
+    {/* Glow layers */}
+    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 blur-md opacity-50 animate-pulseGlow -z-10"></div>
+    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 blur-xl opacity-30 animate-pulseGlow -z-20"></div>
+
+    {/* Infinite gradient-synced ripple effect */}
+    <div className="absolute inset-0 rounded-full border-4 border-gradient animate-ripple -z-30"></div>
+    <div className="absolute inset-0 rounded-full border-4 border-gradient animate-ripple delay-500 -z-30"></div>
+    <div className="absolute inset-0 rounded-full border-4 border-gradient animate-ripple delay-1000 -z-30"></div>
   </span>
 
   <style jsx>{`
+    /* Entrance */
     @keyframes fadeScale {
-      0% {
-        opacity: 0;
-        transform: scale(0.9) translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
-    .animate-fade-scale {
-      animation: fadeScale 1.2s ease-out forwards;
+    /* Shimmer */
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    /* Glow pulse */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    /* Floating effect */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    /* Ripple effect */
+    @keyframes ripple {
+      0% { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 0; transform: scale(3); }
+    }
+
+    /* Classes */
+    .animate-fade-scale { animation: fadeScale 1.2s ease-out forwards; }
+    .animate-gradient { background-size: 200% 200%; animation: gradientMove 3s linear infinite; }
+    .animate-pulseGlow { animation: pulseGlow 2s ease-in-out infinite; }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .animate-ripple { animation: ripple 3s ease-out infinite; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-1000 { animation-delay: 1s; }
+
+    /* Gradient border for ripples */
+    .border-gradient {
+      border-image: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899) 1;
     }
   `}</style>
 </h1>
