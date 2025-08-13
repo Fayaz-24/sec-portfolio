@@ -927,17 +927,35 @@ const handleSubmit = async (e) => {
               <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-ping" style={{ animationDelay: '1s' }}></div>
             </div>
             
-            <h1 className={`text-6xl md:text-7xl font-bold mb-6 transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-              <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} relative`}>
-                Hello, I'm Fayaz
-                <div className={`absolute inset-0 ${isDarkMode ? 'text-white' : 'text-gray-900'} blur-sm opacity-50 -z-10`}></div>
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative inline-block">
-                <span className="relative z-10">I'm Fayaz!</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
-              </span>
-            </h1>
+            <h1
+  className={`text-6xl md:text-7xl font-bold mb-6 transition-all duration-1000 ${
+    isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+  }`}
+>
+  <span
+    className={`relative inline-block overflow-hidden whitespace-nowrap border-r-4 border-cyan-400 pr-2 animate-typing ${
+      isDarkMode ? 'text-white' : 'text-gray-900'
+    }`}
+  >
+    Hello, I'm Fayaz
+  </span>
+
+  <style jsx>{`
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+    .animate-typing {
+      width: 0;
+      animation:
+        typing 3s steps(20, end) forwards,
+        blink .8s step-end infinite alternate;
+    }
+  `}</style>
+</h1>
             
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
               Full Stack Developer
