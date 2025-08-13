@@ -937,7 +937,7 @@ const handleSubmit = async (e) => {
       isDarkMode ? 'text-white' : 'text-gray-900'
     }`}
   >
-    Hello, I'm Fayaz
+  I'm Fayaz
   </span>
 
   <style jsx>{`
