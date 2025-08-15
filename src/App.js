@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, Calendar, ThumbsUp } from 'lucide-react';
+import { 
+  Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, 
+  GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, 
+  Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, 
+  Lock, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, 
+  Calendar, ThumbsUp, Award, Trophy, Medal, BookOpen, Download } from 'lucide-react';
 const CommentSection = ({ isDarkMode = true }) => {
   const [comments, setComments] = useState([
     {
@@ -1413,8 +1418,6 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
-import React, { useState, useEffect } from 'react';
-import { Award, ExternalLink, Calendar, CheckCircle, Star, Zap, Trophy, Medal, BookOpen, Code, Database, Server, Shield, Globe, Cpu, Brain, Monitor, Smartphone, Eye, Download, Sparkles } from 'lucide-react';
 
 const CertificatesSection = ({ isDarkMode = true }) => {
   const [isLoaded, setIsLoaded] = useState(false);
