@@ -486,8 +486,436 @@ return (
     </section>
   );
 };
-      
 
+const CertificatesSection = ({ isDarkMode = true }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const [viewingCertificate, setViewingCertificate] = useState(null);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  const certificates = [
+    {
+      id: 1,
+      title: 'Meta Front-End Developer Certificate',
+      issuer: 'Meta (Facebook)',
+      issueDate: '2024-02-15',
+      credentialId: 'META-FED-2024-001',
+      description: 'Comprehensive program covering React, JavaScript, HTML/CSS, and modern front-end development practices with hands-on projects.',
+      skills: ['React', 'JavaScript', 'HTML/CSS', 'Version Control', 'UI/UX Design'],
+      verifyLink: 'https://coursera.org/verify/professional-cert/meta-frontend',
+      downloadLink: '#',
+      image: 'from-blue-500 via-purple-600 to-indigo-700',
+      icon: Code,
+      glowColor: 'blue',
+      level: 'Professional',
+      duration: '6 months',
+      projects: 4
+    },
+    {
+      id: 2,
+      title: 'Full Stack Web Development Bootcamp',
+      issuer: 'The Complete Web Developer Course',
+      issueDate: '2024-01-20',
+      credentialId: 'FSWD-2024-002',
+      description: 'Intensive bootcamp covering MERN stack, database design, authentication, deployment, and full-stack project development.',
+      skills: ['MERN Stack', 'MongoDB', 'Express.js', 'Node.js', 'API Development'],
+      verifyLink: 'https://udemy.com/certificate/fullstack-developer',
+      downloadLink: '#',
+      image: 'from-emerald-500 via-teal-600 to-cyan-700',
+      icon: Server,
+      glowColor: 'emerald',
+      level: 'Advanced',
+      duration: '12 months',
+      projects: 8
+    },
+    {
+      id: 3,
+      title: 'AWS Certified Cloud Practitioner',
+      issuer: 'Amazon Web Services',
+      issueDate: '2023-11-10',
+      credentialId: 'AWS-CCP-2023-003',
+      description: 'Foundational certification demonstrating cloud concepts, AWS services, security, architecture, and pricing models.',
+      skills: ['AWS Services', 'Cloud Computing', 'Security', 'Architecture', 'Cost Management'],
+      verifyLink: 'https://aws.amazon.com/verification/cloud-practitioner',
+      downloadLink: '#',
+      image: 'from-orange-500 via-amber-600 to-yellow-700',
+      icon: Globe,
+      glowColor: 'orange',
+      level: 'Foundational',
+      duration: '3 months',
+      projects: 2
+    }
+  ];
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  const getGlowClass = (color) => {
+    const glowMap = {
+      blue: 'shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:shadow-[0_0_80px_rgba(59,130,246,0.5)]',
+      emerald: 'shadow-[0_0_50px_rgba(16,185,129,0.3)] hover:shadow-[0_0_80px_rgba(16,185,129,0.5)]',
+      orange: 'shadow-[0_0_50px_rgba(249,115,22,0.3)] hover:shadow-[0_0_80px_rgba(249,115,22,0.5)]',
+      red: 'shadow-[0_0_50px_rgba(239,68,68,0.3)] hover:shadow-[0_0_80px_rgba(239,68,68,0.5)]',
+      green: 'shadow-[0_0_50px_rgba(34,197,94,0.3)] hover:shadow-[0_0_80px_rgba(34,197,94,0.5)]',
+      purple: 'shadow-[0_0_50px_rgba(168,85,247,0.3)] hover:shadow-[0_0_80px_rgba(168,85,247,0.5)]'
+    };
+    return glowMap[color] || glowMap.blue;
+  };
+
+  const getLevelColor = (level) => {
+    const levelMap = {
+      'Foundational': 'bg-blue-500/20 border-blue-500/50 text-blue-300',
+      'Intermediate': 'bg-yellow-500/20 border-yellow-500/50 text-yellow-300',
+      'Advanced': 'bg-red-500/20 border-red-500/50 text-red-300',
+      'Professional': 'bg-purple-500/20 border-purple-500/50 text-purple-300'
+    };
+    return levelMap[level] || levelMap['Intermediate'];
+  };
+
+  // Main render return starts here (continues in Part 2)
+  return (
+    <section className="relative z-10 py-20">
+      <div className="container mx-auto px-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
+                Certifications
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
+              </span>
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-8 rounded-full animate-pulse"></div>
+            <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-8 max-w-3xl mx-auto leading-relaxed`}>
+              Continuously expanding my expertise through industry-recognized certifications and 
+              <span className="text-cyan-400 font-semibold animate-pulse"> professional development</span> programs.
+              <br />
+              Each certification represents <span className="text-purple-400 font-semibold animate-pulse">hands-on mastery</span> of cutting-edge technologies.
+            </p>
+          </div>
+          
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            {[
+              { icon: Award, label: 'Total Certificates', value: certificates.length, color: 'cyan', bg: 'bg-cyan-500/20' },
+              { icon: Trophy, label: 'Projects Completed', value: certificates.reduce((sum, cert) => sum + cert.projects, 0), color: 'yellow', bg: 'bg-yellow-500/20' },
+              { icon: BookOpen, label: 'Hours Studied', value: '800+', color: 'purple', bg: 'bg-purple-500/20' },
+              { icon: Medal, label: 'Skills Mastered', value: new Set(certificates.flatMap(cert => cert.skills)).size, color: 'green', bg: 'bg-green-500/20' }
+            ].map((stat, index) => (
+              <div key={index} className={`text-center group hover:scale-105 transition-all duration-300 ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl p-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 relative overflow-hidden`}>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className={`absolute inset-0 bg-gradient-to-r from-${stat.color}-500/10 to-${stat.color}-600/10 rounded-2xl animate-pulse`}></div>
+                </div>
+                <div className={`mx-auto mb-4 p-3 rounded-full ${stat.bg} backdrop-blur-sm text-${stat.color}-400 group-hover:animate-pulse border border-current/30 w-fit`}>
+                  <stat.icon size={24} />
+                </div>
+                <div className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 group-hover:text-${stat.color}-400 transition-colors`}>{stat.value}</div>
+                <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Certificates Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {certificates.map((certificate, index) => (
+              <CertificateCard key={certificate.id} certificate={certificate} index={index} />
+            ))}
+          </div>
+          
+          {/* Continue with Part 2 for the rest... */}
+        </div>
+      </div>
+    </section>
+  );
+};
+// This is the continuation of the CertificatesSection component
+// Insert this after the certificates grid in Part 1
+
+const CertificateCard = ({ certificate, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className={`group relative ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 hover:-translate-y-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'} ${getGlowClass(certificate.glowColor)}`}
+      style={{ transitionDelay: `${index * 200}ms` }}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setHoveredCard(certificate.id);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setHoveredCard(null);
+      }}
+    >
+      {/* Background glow effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+      
+      {/* Level Badge */}
+      <div className="absolute top-4 left-4 z-20">
+        <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${getLevelColor(certificate.level)} animate-pulse`}>
+          {certificate.level}
+        </div>
+      </div>
+
+      {/* Duration Badge */}
+      <div className="absolute top-4 right-4 z-20">
+        <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${isDarkMode ? 'bg-gray-700/50 border-gray-600/50 text-gray-300' : 'bg-white/50 border-gray-300/50 text-gray-700'} animate-pulse`}>
+          {certificate.duration}
+        </div>
+      </div>
+      
+      {/* Header Section */}
+      <div className={`h-48 relative overflow-hidden bg-gradient-to-br ${certificate.image}`}>
+        <div className={`absolute inset-0 ${isDarkMode ? 'bg-black/40 group-hover:bg-black/20' : 'bg-white/40 group-hover:bg-white/20'} transition-all duration-500`} />
+        <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-t from-black/60 to-transparent' : 'bg-gradient-to-t from-white/60 to-transparent'}`} />
+        
+        {/* Floating particles */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-white rounded-full opacity-60"
+              style={{
+                left: `${10 + Math.random() * 80}%`,
+                top: `${10 + Math.random() * 80}%`,
+                animationDelay: `${i * 0.2}s`,
+                animation: `float 3s ease-in-out infinite ${i * 0.2}s`
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Main Icon */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:scale-110 transition-all duration-500">
+            <certificate.icon className="text-white" size={40} />
+          </div>
+        </div>
+        
+        {/* Projects count */}
+        <div className="absolute bottom-4 right-4 flex items-center gap-2">
+          <div className={`${isDarkMode ? 'bg-black/70' : 'bg-white/70'} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-cyan-500/50 animate-pulse`}>
+            <Trophy size={14} className="text-cyan-400" />
+            <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{certificate.projects} Projects</span>
+          </div>
+        </div>
+        
+        {/* Scanning line effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
+             style={{ animation: isHovered ? 'scan 2s linear infinite' : 'none' }}></div>
+      </div>
+      
+      {/* Content Section */}
+      <div className="p-6 relative">
+        {/* Title */}
+        <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 transition-all duration-500 flex items-center gap-2`}>
+          {certificate.title}
+          <Sparkles size={16} className="text-cyan-400 opacity-0 group-hover:opacity-100 animate-spin transition-opacity duration-500" />
+        </h3>
+        
+        {/* Issuer */}
+        <div className="flex items-center gap-2 mb-3">
+          <Award className="text-purple-400 animate-pulse" size={16} />
+          <span className={`font-semibold ${isDarkMode ? 'text-purple-300' : 'text-purple-600'}`}>
+            {certificate.issuer}
+          </span>
+        </div>
+        
+        {/* Issue Date */}
+        <div className="flex items-center gap-2 mb-4">
+          <Calendar className="text-cyan-400" size={16} />
+          <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            Issued: {formatDate(certificate.issueDate)}
+          </span>
+        </div>
+        
+        {/* Description */}
+        <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-4 leading-relaxed text-sm group-hover:${isDarkMode ? 'text-gray-100' : 'text-gray-900'} transition-colors duration-300`}>
+          {certificate.description}
+        </p>
+        
+        {/* Skills */}
+        <div className="mb-4">
+          <p className="text-sm font-semibold text-cyan-400 mb-2 animate-pulse">Skills Acquired:</p>
+          <div className="flex flex-wrap gap-2">
+            {certificate.skills.map((skill, skillIndex) => (
+              <span
+                key={skillIndex}
+                className="bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm text-cyan-300 px-2 py-1 rounded-full text-xs font-medium border border-cyan-500/30 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105 cursor-default animate-pulse"
+                style={{ animationDelay: `${skillIndex * 100}ms` }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setViewingCertificate(certificate)}
+            className="group/btn relative flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-4 py-2 rounded-xl transition-all duration-300 flex-1 justify-center shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105 overflow-hidden text-sm font-semibold"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
+            <ExternalLink size={14} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
+            <span className="relative z-10">View</span>
+          </button>
+          
+          <a
+            href={certificate.downloadLink}
+            className={`group/btn relative flex items-center gap-2 ${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50' : 'bg-gray-200/50 hover:bg-gray-300/50'} ${isDarkMode ? 'text-white' : 'text-gray-900'} px-4 py-2 rounded-xl transition-all duration-300 flex-1 justify-center border ${isDarkMode ? 'border-gray-600/50' : 'border-gray-300/50'} hover:shadow-lg hover:shadow-gray-500/25 overflow-hidden backdrop-blur-sm hover:scale-105 text-sm font-semibold`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
+            <Download size={14} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
+            <span className="relative z-10">Download</span>
+          </a>
+        </div>
+      </div>
+      
+      {/* Floating glow orbs */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400/50 rounded-full blur-sm animate-ping"></div>
+        <div className="absolute top-3/4 right-1/4 w-6 h-6 bg-purple-400/30 rounded-full blur-md animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute bottom-1/4 left-3/4 w-3 h-3 bg-pink-400/40 rounded-full blur-sm animate-bounce" style={{ animationDelay: '1s' }}></div>
+      </div>
+    </div>
+  );
+};
+
+// Add this after the certificates grid and before the closing divs:
+
+{/* Call to Action */}
+<div className={`mt-16 text-center p-8 bg-gradient-to-r ${isDarkMode ? 'from-cyan-600/10 via-purple-600/10 to-pink-600/10' : 'from-cyan-600/5 via-purple-600/5 to-pink-600/5'} backdrop-blur-sm rounded-2xl border border-cyan-500/20 relative overflow-hidden`}>
+  <div className="absolute inset-0 opacity-10">
+    {[...Array(15)].map((_, i) => (
+      <div
+        key={i}
+        className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${i * 0.3}s`,
+          animationDuration: `${2 + Math.random() * 2}s`
+        }}
+      />
+    ))}
+  </div>
+  
+  <div className="relative z-10">
+    <Zap className="mx-auto mb-4 text-cyan-400 animate-pulse" size={48} />
+    <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>
+      Continuous Learning Journey
+    </h3>
+    <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-6 text-lg max-w-2xl mx-auto`}>
+      Currently pursuing additional certifications in AI/ML, Cloud Architecture, and Advanced React patterns. 
+      <span className="text-cyan-400 font-semibold animate-pulse"> Knowledge never stops growing!</span>
+    </p>
+    
+    <div className="flex justify-center gap-4">
+      <div className="w-3 h-3 bg-cyan-400 rounded-full animate-bounce shadow-lg shadow-cyan-400/50"></div>
+      <div className="w-3 h-3 bg-purple-400 rounded-full animate-bounce shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.2s' }}></div>
+      <div className="w-3 h-3 bg-pink-400 rounded-full animate-bounce shadow-lg shadow-pink-400/50" style={{ animationDelay: '0.4s' }}></div>
+    </div>
+  </div>
+</div>
+
+{/* Certificate Modal */}
+{viewingCertificate && (
+  <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setViewingCertificate(null)}>
+    <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-auto border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} shadow-2xl animate-pulse`} onClick={(e) => e.stopPropagation()}>
+      <div className={`h-64 bg-gradient-to-br ${viewingCertificate.image} relative flex items-center justify-center`}>
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative z-10 text-center">
+          <viewingCertificate.icon size={80} className="text-white mx-auto mb-4" />
+          <h2 className="text-3xl font-bold text-white mb-2">{viewingCertificate.title}</h2>
+          <p className="text-white/80 text-lg">{viewingCertificate.issuer}</p>
+        </div>
+        <button 
+          onClick={() => setViewingCertificate(null)}
+          className="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl w-10 h-10 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center transition-all"
+        >
+          ×
+        </button>
+      </div>
+      
+      <div className="p-8">
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Certificate Details</h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Calendar className="text-cyan-400" size={20} />
+                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  Issued: {formatDate(viewingCertificate.issueDate)}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Trophy className="text-yellow-400" size={20} />
+                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  Level: {viewingCertificate.level}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <BookOpen className="text-purple-400" size={20} />
+                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  Duration: {viewingCertificate.duration}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Medal className="text-green-400" size={20} />
+                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  Projects: {viewingCertificate.projects}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Description</h3>
+            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed mb-6`}>
+              {viewingCertificate.description}
+            </p>
+            
+            <h4 className={`font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-3`}>Skills Acquired</h4>
+            <div className="flex flex-wrap gap-2">
+              {viewingCertificate.skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className="bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm text-cyan-300 px-3 py-1 rounded-full text-sm font-medium border border-cyan-500/30"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* Custom CSS for animations */}
+<style jsx>{`
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(180deg); }
+  }
+  
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+`}</style>
+      
 const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
@@ -1224,6 +1652,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+<CertificatesSection isDarkMode={isDarkMode} />
 
       {/* Enhanced Projects Section */}
       <section id="projects" className="relative z-10 py-20">
@@ -1418,436 +1847,8 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
-
-const CertificatesSection = ({ isDarkMode = true }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const [viewingCertificate, setViewingCertificate] = useState(null);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
-  const certificates = [
-    {
-      id: 1,
-      title: 'Meta Front-End Developer Certificate',
-      issuer: 'Meta (Facebook)',
-      issueDate: '2024-02-15',
-      credentialId: 'META-FED-2024-001',
-      description: 'Comprehensive program covering React, JavaScript, HTML/CSS, and modern front-end development practices with hands-on projects.',
-      skills: ['React', 'JavaScript', 'HTML/CSS', 'Version Control', 'UI/UX Design'],
-      verifyLink: 'https://coursera.org/verify/professional-cert/meta-frontend',
-      downloadLink: '#',
-      image: 'from-blue-500 via-purple-600 to-indigo-700',
-      icon: Code,
-      glowColor: 'blue',
-      level: 'Professional',
-      duration: '6 months',
-      projects: 4
-    },
-    {
-      id: 2,
-      title: 'Full Stack Web Development Bootcamp',
-      issuer: 'The Complete Web Developer Course',
-      issueDate: '2024-01-20',
-      credentialId: 'FSWD-2024-002',
-      description: 'Intensive bootcamp covering MERN stack, database design, authentication, deployment, and full-stack project development.',
-      skills: ['MERN Stack', 'MongoDB', 'Express.js', 'Node.js', 'API Development'],
-      verifyLink: 'https://udemy.com/certificate/fullstack-developer',
-      downloadLink: '#',
-      image: 'from-emerald-500 via-teal-600 to-cyan-700',
-      icon: Server,
-      glowColor: 'emerald',
-      level: 'Advanced',
-      duration: '12 months',
-      projects: 8
-    },
-    {
-      id: 3,
-      title: 'AWS Certified Cloud Practitioner',
-      issuer: 'Amazon Web Services',
-      issueDate: '2023-11-10',
-      credentialId: 'AWS-CCP-2023-003',
-      description: 'Foundational certification demonstrating cloud concepts, AWS services, security, architecture, and pricing models.',
-      skills: ['AWS Services', 'Cloud Computing', 'Security', 'Architecture', 'Cost Management'],
-      verifyLink: 'https://aws.amazon.com/verification/cloud-practitioner',
-      downloadLink: '#',
-      image: 'from-orange-500 via-amber-600 to-yellow-700',
-      icon: Globe,
-      glowColor: 'orange',
-      level: 'Foundational',
-      duration: '3 months',
-      projects: 2
-    }
-  ];
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
-
-  const getGlowClass = (color) => {
-    const glowMap = {
-      blue: 'shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:shadow-[0_0_80px_rgba(59,130,246,0.5)]',
-      emerald: 'shadow-[0_0_50px_rgba(16,185,129,0.3)] hover:shadow-[0_0_80px_rgba(16,185,129,0.5)]',
-      orange: 'shadow-[0_0_50px_rgba(249,115,22,0.3)] hover:shadow-[0_0_80px_rgba(249,115,22,0.5)]',
-      red: 'shadow-[0_0_50px_rgba(239,68,68,0.3)] hover:shadow-[0_0_80px_rgba(239,68,68,0.5)]',
-      green: 'shadow-[0_0_50px_rgba(34,197,94,0.3)] hover:shadow-[0_0_80px_rgba(34,197,94,0.5)]',
-      purple: 'shadow-[0_0_50px_rgba(168,85,247,0.3)] hover:shadow-[0_0_80px_rgba(168,85,247,0.5)]'
-    };
-    return glowMap[color] || glowMap.blue;
-  };
-
-  const getLevelColor = (level) => {
-    const levelMap = {
-      'Foundational': 'bg-blue-500/20 border-blue-500/50 text-blue-300',
-      'Intermediate': 'bg-yellow-500/20 border-yellow-500/50 text-yellow-300',
-      'Advanced': 'bg-red-500/20 border-red-500/50 text-red-300',
-      'Professional': 'bg-purple-500/20 border-purple-500/50 text-purple-300'
-    };
-    return levelMap[level] || levelMap['Intermediate'];
-  };
-
-  // Main render return starts here (continues in Part 2)
-  return (
-    <section className="relative z-10 py-20">
-      <div className="container mx-auto px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
-                Certifications
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
-              </span>
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-8 rounded-full animate-pulse"></div>
-            <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-8 max-w-3xl mx-auto leading-relaxed`}>
-              Continuously expanding my expertise through industry-recognized certifications and 
-              <span className="text-cyan-400 font-semibold animate-pulse"> professional development</span> programs.
-              <br />
-              Each certification represents <span className="text-purple-400 font-semibold animate-pulse">hands-on mastery</span> of cutting-edge technologies.
-            </p>
-          </div>
-          
-          {/* Statistics Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            {[
-              { icon: Award, label: 'Total Certificates', value: certificates.length, color: 'cyan', bg: 'bg-cyan-500/20' },
-              { icon: Trophy, label: 'Projects Completed', value: certificates.reduce((sum, cert) => sum + cert.projects, 0), color: 'yellow', bg: 'bg-yellow-500/20' },
-              { icon: BookOpen, label: 'Hours Studied', value: '800+', color: 'purple', bg: 'bg-purple-500/20' },
-              { icon: Medal, label: 'Skills Mastered', value: new Set(certificates.flatMap(cert => cert.skills)).size, color: 'green', bg: 'bg-green-500/20' }
-            ].map((stat, index) => (
-              <div key={index} className={`text-center group hover:scale-105 transition-all duration-300 ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl p-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 relative overflow-hidden`}>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className={`absolute inset-0 bg-gradient-to-r from-${stat.color}-500/10 to-${stat.color}-600/10 rounded-2xl animate-pulse`}></div>
-                </div>
-                <div className={`mx-auto mb-4 p-3 rounded-full ${stat.bg} backdrop-blur-sm text-${stat.color}-400 group-hover:animate-pulse border border-current/30 w-fit`}>
-                  <stat.icon size={24} />
-                </div>
-                <div className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 group-hover:text-${stat.color}-400 transition-colors`}>{stat.value}</div>
-                <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Certificates Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {certificates.map((certificate, index) => (
-              <CertificateCard key={certificate.id} certificate={certificate} index={index} />
-            ))}
-          </div>
-          
-          {/* Continue with Part 2 for the rest... */}
-        </div>
-      </div>
-    </section>
-  );
-};
-// This is the continuation of the CertificatesSection component
-// Insert this after the certificates grid in Part 1
-
-const CertificateCard = ({ certificate, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div 
-      className={`group relative ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 hover:-translate-y-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'} ${getGlowClass(certificate.glowColor)}`}
-      style={{ transitionDelay: `${index * 200}ms` }}
-      onMouseEnter={() => {
-        setIsHovered(true);
-        setHoveredCard(certificate.id);
-      }}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setHoveredCard(null);
-      }}
-    >
-      {/* Background glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
-      
-      {/* Level Badge */}
-      <div className="absolute top-4 left-4 z-20">
-        <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${getLevelColor(certificate.level)} animate-pulse`}>
-          {certificate.level}
-        </div>
-      </div>
-
-      {/* Duration Badge */}
-      <div className="absolute top-4 right-4 z-20">
-        <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${isDarkMode ? 'bg-gray-700/50 border-gray-600/50 text-gray-300' : 'bg-white/50 border-gray-300/50 text-gray-700'} animate-pulse`}>
-          {certificate.duration}
-        </div>
-      </div>
-      
-      {/* Header Section */}
-      <div className={`h-48 relative overflow-hidden bg-gradient-to-br ${certificate.image}`}>
-        <div className={`absolute inset-0 ${isDarkMode ? 'bg-black/40 group-hover:bg-black/20' : 'bg-white/40 group-hover:bg-white/20'} transition-all duration-500`} />
-        <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-t from-black/60 to-transparent' : 'bg-gradient-to-t from-white/60 to-transparent'}`} />
-        
-        {/* Floating particles */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-white rounded-full opacity-60"
-              style={{
-                left: `${10 + Math.random() * 80}%`,
-                top: `${10 + Math.random() * 80}%`,
-                animationDelay: `${i * 0.2}s`,
-                animation: `float 3s ease-in-out infinite ${i * 0.2}s`
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Main Icon */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:scale-110 transition-all duration-500">
-            <certificate.icon className="text-white" size={40} />
-          </div>
-        </div>
-        
-        {/* Projects count */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2">
-          <div className={`${isDarkMode ? 'bg-black/70' : 'bg-white/70'} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-cyan-500/50 animate-pulse`}>
-            <Trophy size={14} className="text-cyan-400" />
-            <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{certificate.projects} Projects</span>
-          </div>
-        </div>
-        
-        {/* Scanning line effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
-             style={{ animation: isHovered ? 'scan 2s linear infinite' : 'none' }}></div>
-      </div>
-      
-      {/* Content Section */}
-      <div className="p-6 relative">
-        {/* Title */}
-        <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 transition-all duration-500 flex items-center gap-2`}>
-          {certificate.title}
-          <Sparkles size={16} className="text-cyan-400 opacity-0 group-hover:opacity-100 animate-spin transition-opacity duration-500" />
-        </h3>
-        
-        {/* Issuer */}
-        <div className="flex items-center gap-2 mb-3">
-          <Award className="text-purple-400 animate-pulse" size={16} />
-          <span className={`font-semibold ${isDarkMode ? 'text-purple-300' : 'text-purple-600'}`}>
-            {certificate.issuer}
-          </span>
-        </div>
-        
-        {/* Issue Date */}
-        <div className="flex items-center gap-2 mb-4">
-          <Calendar className="text-cyan-400" size={16} />
-          <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Issued: {formatDate(certificate.issueDate)}
-          </span>
-        </div>
-        
-        {/* Description */}
-        <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-4 leading-relaxed text-sm group-hover:${isDarkMode ? 'text-gray-100' : 'text-gray-900'} transition-colors duration-300`}>
-          {certificate.description}
-        </p>
-        
-        {/* Skills */}
-        <div className="mb-4">
-          <p className="text-sm font-semibold text-cyan-400 mb-2 animate-pulse">Skills Acquired:</p>
-          <div className="flex flex-wrap gap-2">
-            {certificate.skills.map((skill, skillIndex) => (
-              <span
-                key={skillIndex}
-                className="bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm text-cyan-300 px-2 py-1 rounded-full text-xs font-medium border border-cyan-500/30 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105 cursor-default animate-pulse"
-                style={{ animationDelay: `${skillIndex * 100}ms` }}
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-        
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => setViewingCertificate(certificate)}
-            className="group/btn relative flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-4 py-2 rounded-xl transition-all duration-300 flex-1 justify-center shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/50 hover:scale-105 overflow-hidden text-sm font-semibold"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
-            <ExternalLink size={14} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
-            <span className="relative z-10">View</span>
-          </button>
-          
-          <a
-            href={certificate.downloadLink}
-            className={`group/btn relative flex items-center gap-2 ${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50' : 'bg-gray-200/50 hover:bg-gray-300/50'} ${isDarkMode ? 'text-white' : 'text-gray-900'} px-4 py-2 rounded-xl transition-all duration-300 flex-1 justify-center border ${isDarkMode ? 'border-gray-600/50' : 'border-gray-300/50'} hover:shadow-lg hover:shadow-gray-500/25 overflow-hidden backdrop-blur-sm hover:scale-105 text-sm font-semibold`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
-            <Download size={14} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
-            <span className="relative z-10">Download</span>
-          </a>
-        </div>
-      </div>
-      
-      {/* Floating glow orbs */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400/50 rounded-full blur-sm animate-ping"></div>
-        <div className="absolute top-3/4 right-1/4 w-6 h-6 bg-purple-400/30 rounded-full blur-md animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute bottom-1/4 left-3/4 w-3 h-3 bg-pink-400/40 rounded-full blur-sm animate-bounce" style={{ animationDelay: '1s' }}></div>
-      </div>
-    </div>
-  );
-};
-
-// Add this after the certificates grid and before the closing divs:
-
-{/* Call to Action */}
-<div className={`mt-16 text-center p-8 bg-gradient-to-r ${isDarkMode ? 'from-cyan-600/10 via-purple-600/10 to-pink-600/10' : 'from-cyan-600/5 via-purple-600/5 to-pink-600/5'} backdrop-blur-sm rounded-2xl border border-cyan-500/20 relative overflow-hidden`}>
-  <div className="absolute inset-0 opacity-10">
-    {[...Array(15)].map((_, i) => (
-      <div
-        key={i}
-        className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animationDelay: `${i * 0.3}s`,
-          animationDuration: `${2 + Math.random() * 2}s`
-        }}
-      />
-    ))}
-  </div>
-  
-  <div className="relative z-10">
-    <Zap className="mx-auto mb-4 text-cyan-400 animate-pulse" size={48} />
-    <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>
-      Continuous Learning Journey
-    </h3>
-    <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-6 text-lg max-w-2xl mx-auto`}>
-      Currently pursuing additional certifications in AI/ML, Cloud Architecture, and Advanced React patterns. 
-      <span className="text-cyan-400 font-semibold animate-pulse"> Knowledge never stops growing!</span>
-    </p>
-    
-    <div className="flex justify-center gap-4">
-      <div className="w-3 h-3 bg-cyan-400 rounded-full animate-bounce shadow-lg shadow-cyan-400/50"></div>
-      <div className="w-3 h-3 bg-purple-400 rounded-full animate-bounce shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.2s' }}></div>
-      <div className="w-3 h-3 bg-pink-400 rounded-full animate-bounce shadow-lg shadow-pink-400/50" style={{ animationDelay: '0.4s' }}></div>
-    </div>
-  </div>
-</div>
-
-{/* Certificate Modal */}
-{viewingCertificate && (
-  <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setViewingCertificate(null)}>
-    <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-auto border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} shadow-2xl animate-pulse`} onClick={(e) => e.stopPropagation()}>
-      <div className={`h-64 bg-gradient-to-br ${viewingCertificate.image} relative flex items-center justify-center`}>
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 text-center">
-          <viewingCertificate.icon size={80} className="text-white mx-auto mb-4" />
-          <h2 className="text-3xl font-bold text-white mb-2">{viewingCertificate.title}</h2>
-          <p className="text-white/80 text-lg">{viewingCertificate.issuer}</p>
-        </div>
-        <button 
-          onClick={() => setViewingCertificate(null)}
-          className="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl w-10 h-10 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center transition-all"
-        >
-          ×
-        </button>
-      </div>
-      
-      <div className="p-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Certificate Details</h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Calendar className="text-cyan-400" size={20} />
-                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Issued: {formatDate(viewingCertificate.issueDate)}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Trophy className="text-yellow-400" size={20} />
-                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Level: {viewingCertificate.level}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <BookOpen className="text-purple-400" size={20} />
-                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Duration: {viewingCertificate.duration}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Medal className="text-green-400" size={20} />
-                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Projects: {viewingCertificate.projects}
-                </span>
-              </div>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Description</h3>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed mb-6`}>
-              {viewingCertificate.description}
-            </p>
             
-            <h4 className={`font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-3`}>Skills Acquired</h4>
-            <div className="flex flex-wrap gap-2">
-              {viewingCertificate.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm text-cyan-300 px-3 py-1 rounded-full text-sm font-medium border border-cyan-500/30"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* Custom CSS for animations */}
-<style jsx>{`
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(180deg); }
-  }
-  
-  @keyframes scan {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-  }
-`}</style>
-
+    
       {/* Contact Section */}
       <section id="contact" className="relative z-10 py-20">
         <div className="container mx-auto px-6">
