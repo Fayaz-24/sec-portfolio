@@ -915,6 +915,9 @@ const CertificateCard = ({ certificate, index }) => {
     100% { transform: translateY(100%); }
   }
 `}</style>
+</section>
+  );
+};
       
 const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
