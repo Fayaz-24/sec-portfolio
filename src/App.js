@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, Calendar, ThumbsUp, Award, BookOpen, Trophy, Medal } from 'lucide-react';
+import { 
+  Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, Calendar, ThumbsUp, Award, Trophy, Medal, BookOpen, Download 
+} from 'lucide-react';
 
 const CommentSection = ({ isDarkMode = true }) => {
   const [comments, setComments] = useState([
@@ -769,7 +771,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
                 onClick={() => setViewingCertificate(null)}
                 className="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl w-10 h-10 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center transition-all"
               >
-                Ã  
+                ×
               </button>
             </div>
             <div className="p-8">
@@ -1551,7 +1553,7 @@ const handleSubmit = async (e) => {
             <div className="text-center mb-16">
               <h2 className="text-5xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent relative">
-                  Inbox is Open â Letâ s Build!
+                  Inbox is Open — Let’s Build!
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
                 </span>
               </h2>
@@ -1847,7 +1849,7 @@ const handleSubmit = async (e) => {
               ))}
             </div>
             <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-              Â© 2024 Fayaz. Crafted with ?? and lots of ?
+              © 2024 Fayaz. Crafted with ❤️ and lots of ☕
             </p>
           </div>
         </div>
