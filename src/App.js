@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Github, Linkedin, Mail, ExternalLink, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Server, Globe, Shield, Cpu, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Lock, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, Calendar, ThumbsUp, Award, Trophy, Medal, BookOpen, Download 
-} from 'lucide-react';
-
+import { Github, Linkedin, Mail, Code, Smartphone, Monitor, Star, GitBranch, Zap, Sparkles, Sun, Moon, Instagram, Database, Globe, Shield, Rocket, Brain, Bot, Clock, Users, Eye, Heart, TrendingUp, Wifi, CheckCircle, AlertCircle, Send, MessageCircle, Reply, User, Calendar, ThumbsUp, Server, Trophy, Award, ExternalLink, Download, BookOpen, Medal } from 'lucide-react';
 const CommentSection = ({ isDarkMode = true }) => {
   const [comments, setComments] = useState([
     {
@@ -51,6 +48,7 @@ const CommentSection = ({ isDarkMode = true }) => {
       replies: []
     }
   ]);
+
   const [newComment, setNewComment] = useState({
     name: '',
     email: '',
@@ -60,6 +58,7 @@ const CommentSection = ({ isDarkMode = true }) => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState('');
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewComment(prev => ({
@@ -67,16 +66,20 @@ const CommentSection = ({ isDarkMode = true }) => {
       [name]: value
     }));
   };
+
   const handleSubmit = async () => {
     if (!newComment.name.trim() || !newComment.email.trim() || !newComment.message.trim()) {
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus(null), 3000);
       return;
     }
+    
     setIsSubmitting(true);
     setSubmitStatus(null);
+    
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
+      
       const comment = {
         id: Date.now(),
         ...newComment,
@@ -87,6 +90,7 @@ const CommentSection = ({ isDarkMode = true }) => {
         role: "Visitor",
         replies: []
       };
+      
       setComments(prev => [comment, ...prev]);
       setNewComment({ name: '', email: '', message: '' });
       setSubmitStatus('success');
@@ -98,6 +102,7 @@ const CommentSection = ({ isDarkMode = true }) => {
       setIsSubmitting(false);
     }
   };
+
   const handleLike = (commentId) => {
     setComments(prev => prev.map(comment => 
       comment.id === commentId 
@@ -109,10 +114,12 @@ const CommentSection = ({ isDarkMode = true }) => {
         : comment
     ));
   };
+
   const formatTimeAgo = (timestamp) => {
     const now = new Date();
     const commentTime = new Date(timestamp);
     const diffInHours = Math.floor((now - commentTime) / (1000 * 60 * 60));
+    
     if (diffInHours < 1) return 'Just now';
     if (diffInHours < 24) return `${diffInHours}h ago`;
     if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}d ago`;
@@ -123,8 +130,10 @@ const CommentSection = ({ isDarkMode = true }) => {
          style={{ 
            animation: `slideIn 0.6s ease-out ${index * 0.1}s both`
          }}>
+      
       {/* Background glow effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      
       {/* Floating particles */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
         {[...Array(8)].map((_, i) => (
@@ -140,6 +149,7 @@ const CommentSection = ({ isDarkMode = true }) => {
           />
         ))}
       </div>
+      
       <div className="relative z-10">
         <div className="flex items-start gap-4 mb-4">
           {/* Avatar with gradient border */}
@@ -155,6 +165,7 @@ const CommentSection = ({ isDarkMode = true }) => {
               </div>
             )}
           </div>
+          
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <h4 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} ${comment.isOwner ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500' : ''}`}>
@@ -176,6 +187,7 @@ const CommentSection = ({ isDarkMode = true }) => {
             </p>
           </div>
         </div>
+        
         {/* Action buttons */}
         <div className="flex items-center gap-4 mt-4">
           <button
@@ -189,6 +201,7 @@ const CommentSection = ({ isDarkMode = true }) => {
             <Heart size={14} className={comment.isLiked ? 'fill-current animate-pulse' : ''} />
             <span className="text-sm font-medium">{comment.likes}</span>
           </button>
+          
           <button
             onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
             className={`flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 hover:scale-105 ${isDarkMode ? 'bg-gray-800/50 text-gray-400 hover:text-cyan-400' : 'bg-gray-200/50 text-gray-600 hover:text-cyan-500'} border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-300/50'} hover:border-cyan-500/30`}
@@ -196,11 +209,13 @@ const CommentSection = ({ isDarkMode = true }) => {
             <Reply size={14} />
             <span className="text-sm font-medium">Reply</span>
           </button>
+          
           <div className="flex items-center gap-1 text-gray-500 text-sm">
             <Eye size={12} />
             <span>{Math.floor(Math.random() * 50) + 10}</span>
           </div>
         </div>
+        
         {/* Replies */}
         {comment.replies && comment.replies.length > 0 && (
           <div className="mt-6 pl-6 border-l-2 border-cyan-500/30 space-y-4">
@@ -232,6 +247,7 @@ const CommentSection = ({ isDarkMode = true }) => {
             ))}
           </div>
         )}
+        
         {/* Reply form */}
         {replyingTo === comment.id && (
           <div className="mt-4 pl-6 border-l-2 border-cyan-500/30">
@@ -283,6 +299,7 @@ return (
               <span className="text-cyan-400 font-semibold animate-pulse"> Your feedback drives innovation</span>!
             </p>
           </div>
+          
           {/* Comment Form */}
           <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-3xl p-8 md:p-12 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 relative overflow-hidden mb-12`}>
             {/* Background Effects */}
@@ -301,6 +318,7 @@ return (
                 />
               ))}
             </div>
+            
             {/* Form Header */}
             <div className="flex items-center gap-4 mb-8 relative z-10">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse shadow-lg shadow-cyan-500/25">
@@ -310,6 +328,7 @@ return (
                 Leave a Comment
               </h3>
             </div>
+            
             {/* Success/Error Messages */}
             {submitStatus && (
               <div className={`p-4 rounded-2xl border flex items-center gap-3 animate-pulse mb-6 relative z-10 ${
@@ -330,6 +349,7 @@ return (
                 )}
               </div>
             )}
+            
             {/* Comment Form */}
             <div className="space-y-6 relative z-10">
               <div className="grid md:grid-cols-2 gap-6">
@@ -345,6 +365,7 @@ return (
                     disabled={isSubmitting}
                   />
                 </div>
+                
                 <div className="group">
                   <input
                     type="email"
@@ -358,6 +379,7 @@ return (
                   />
                 </div>
               </div>
+              
               <div className="group">
                 <textarea
                   name="message"
@@ -370,6 +392,7 @@ return (
                   disabled={isSubmitting}
                 ></textarea>
               </div>
+              
               <button
                 type="button"
                 onClick={handleSubmit}
@@ -394,6 +417,7 @@ return (
               </button>
             </div>
           </div>
+          
           {/* Comments List */}
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-8">
@@ -406,9 +430,11 @@ return (
                 <span>{comments.reduce((sum, c) => sum + c.likes, 0)} likes</span>
               </div>
             </div>
+            
             {comments.map((comment, index) => (
               <CommentCard key={comment.id} comment={comment} index={index} />
             ))}
+            
             {comments.length === 0 && (
               <div className={`text-center py-16 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                 <MessageCircle size={48} className="mx-auto mb-4 opacity-50" />
@@ -417,6 +443,7 @@ return (
               </div>
             )}
           </div>
+          
           {/* Stats Section */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -437,30 +464,21 @@ return (
           </div>
         </div>
       </div>
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+      
+
     </section>
   );
 };
 
+
 const CertificatesSection = ({ isDarkMode = true }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState(null);
   const [viewingCertificate, setViewingCertificate] = useState(null);
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
   const certificates = [
     {
       id: 1,
@@ -514,6 +532,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
       projects: 2
     }
   ];
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -522,6 +541,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
       day: 'numeric' 
     });
   };
+
   const getGlowClass = (color) => {
     const glowMap = {
       blue: 'shadow-[0_0_50px_rgba(59,130,246,0.3)] hover:shadow-[0_0_80px_rgba(59,130,246,0.5)]',
@@ -533,6 +553,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
     };
     return glowMap[color] || glowMap.blue;
   };
+
   const getLevelColor = (level) => {
     const levelMap = {
       'Foundational': 'bg-blue-500/20 border-blue-500/50 text-blue-300',
@@ -542,39 +563,39 @@ const CertificatesSection = ({ isDarkMode = true }) => {
     };
     return levelMap[level] || levelMap['Intermediate'];
   };
+
   const CertificateCard = ({ certificate, index }) => {
     const [isHovered, setIsHovered] = useState(false);
+
     return (
       <div 
         className={`group relative ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 hover:-translate-y-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'} ${getGlowClass(certificate.glowColor)}`}
         style={{ transitionDelay: `${index * 200}ms` }}
-        onMouseEnter={() => {
-          setIsHovered(true);
-          setHoveredCard(certificate.id);
-        }}
-        onMouseLeave={() => {
-          setIsHovered(false);
-          setHoveredCard(null);
-        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Background glow effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+        
         {/* Level Badge */}
         <div className="absolute top-4 left-4 z-20">
           <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${getLevelColor(certificate.level)} animate-pulse`}>
             {certificate.level}
           </div>
         </div>
+
         {/* Duration Badge */}
         <div className="absolute top-4 right-4 z-20">
           <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${isDarkMode ? 'bg-gray-700/50 border-gray-600/50 text-gray-300' : 'bg-white/50 border-gray-300/50 text-gray-700'} animate-pulse`}>
             {certificate.duration}
           </div>
         </div>
+        
         {/* Header Section */}
         <div className={`h-48 relative overflow-hidden bg-gradient-to-br ${certificate.image}`}>
           <div className={`absolute inset-0 ${isDarkMode ? 'bg-black/40 group-hover:bg-black/20' : 'bg-white/40 group-hover:bg-white/20'} transition-all duration-500`} />
           <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-t from-black/60 to-transparent' : 'bg-gradient-to-t from-white/60 to-transparent'}`} />
+          
           {/* Floating particles */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             {[...Array(10)].map((_, i) => (
@@ -590,12 +611,14 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               />
             ))}
           </div>
+          
           {/* Main Icon */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:scale-110 transition-all duration-500">
               <certificate.icon className="text-white" size={40} />
             </div>
           </div>
+          
           {/* Projects count */}
           <div className="absolute bottom-4 right-4 flex items-center gap-2">
             <div className={`${isDarkMode ? 'bg-black/70' : 'bg-white/70'} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-cyan-500/50 animate-pulse`}>
@@ -603,10 +626,12 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{certificate.projects} Projects</span>
             </div>
           </div>
+          
           {/* Scanning line effect */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
                style={{ animation: isHovered ? 'scan 2s linear infinite' : 'none' }}></div>
         </div>
+        
         {/* Content Section */}
         <div className="p-6 relative">
           {/* Title */}
@@ -614,6 +639,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
             {certificate.title}
             <Sparkles size={16} className="text-cyan-400 opacity-0 group-hover:opacity-100 animate-spin transition-opacity duration-500" />
           </h3>
+          
           {/* Issuer */}
           <div className="flex items-center gap-2 mb-3">
             <Award className="text-purple-400 animate-pulse" size={16} />
@@ -621,6 +647,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               {certificate.issuer}
             </span>
           </div>
+          
           {/* Issue Date */}
           <div className="flex items-center gap-2 mb-4">
             <Calendar className="text-cyan-400" size={16} />
@@ -628,10 +655,12 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               Issued: {formatDate(certificate.issueDate)}
             </span>
           </div>
+          
           {/* Description */}
           <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-4 leading-relaxed text-sm group-hover:${isDarkMode ? 'text-gray-100' : 'text-gray-900'} transition-colors duration-300`}>
             {certificate.description}
           </p>
+          
           {/* Skills */}
           <div className="mb-4">
             <p className="text-sm font-semibold text-cyan-400 mb-2 animate-pulse">Skills Acquired:</p>
@@ -647,6 +676,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               ))}
             </div>
           </div>
+          
           {/* Action Buttons */}
           <div className="flex gap-2">
             <button
@@ -657,6 +687,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               <ExternalLink size={14} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
               <span className="relative z-10">View</span>
             </button>
+            
             <a
               href={certificate.downloadLink}
               className={`group/btn relative flex items-center gap-2 ${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50' : 'bg-gray-200/50 hover:bg-gray-300/50'} ${isDarkMode ? 'text-white' : 'text-gray-900'} px-4 py-2 rounded-xl transition-all duration-300 flex-1 justify-center border ${isDarkMode ? 'border-gray-600/50' : 'border-gray-300/50'} hover:shadow-lg hover:shadow-gray-500/25 overflow-hidden backdrop-blur-sm hover:scale-105 text-sm font-semibold`}
@@ -667,6 +698,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
             </a>
           </div>
         </div>
+        
         {/* Floating glow orbs */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400/50 rounded-full blur-sm animate-ping"></div>
@@ -676,6 +708,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
       </div>
     );
   };
+
   return (
     <section className="relative z-10 py-20">
       <div className="container mx-auto px-6">
@@ -696,6 +729,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               Each certification represents <span className="text-purple-400 font-semibold animate-pulse">hands-on mastery</span> of cutting-edge technologies.
             </p>
           </div>
+          
           {/* Statistics Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
             {[
@@ -716,12 +750,14 @@ const CertificatesSection = ({ isDarkMode = true }) => {
               </div>
             ))}
           </div>
+          
           {/* Certificates Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {certificates.map((certificate, index) => (
               <CertificateCard key={certificate.id} certificate={certificate} index={index} />
             ))}
           </div>
+          
           {/* Call to Action */}
           <div className={`mt-16 text-center p-8 bg-gradient-to-r ${isDarkMode ? 'from-cyan-600/10 via-purple-600/10 to-pink-600/10' : 'from-cyan-600/5 via-purple-600/5 to-pink-600/5'} backdrop-blur-sm rounded-2xl border border-cyan-500/20 relative overflow-hidden`}>
             <div className="absolute inset-0 opacity-10">
@@ -738,6 +774,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
                 />
               ))}
             </div>
+            
             <div className="relative z-10">
               <Zap className="mx-auto mb-4 text-cyan-400 animate-pulse" size={48} />
               <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>
@@ -747,6 +784,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
                 Currently pursuing additional certifications in AI/ML, Cloud Architecture, and Advanced React patterns. 
                 <span className="text-cyan-400 font-semibold animate-pulse"> Knowledge never stops growing!</span>
               </p>
+              
               <div className="flex justify-center gap-4">
                 <div className="w-3 h-3 bg-cyan-400 rounded-full animate-bounce shadow-lg shadow-cyan-400/50"></div>
                 <div className="w-3 h-3 bg-purple-400 rounded-full animate-bounce shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.2s' }}></div>
@@ -756,6 +794,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
           </div>
         </div>
       </div>
+      
       {/* Certificate Modal */}
       {viewingCertificate && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setViewingCertificate(null)}>
@@ -774,6 +813,7 @@ const CertificatesSection = ({ isDarkMode = true }) => {
                 ×
               </button>
             </div>
+            
             <div className="p-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
@@ -805,11 +845,13 @@ const CertificatesSection = ({ isDarkMode = true }) => {
                     </div>
                   </div>
                 </div>
+                
                 <div>
                   <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Description</h3>
                   <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed mb-6`}>
                     {viewingCertificate.description}
                   </p>
+                  
                   <h4 className={`font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-3`}>Skills Acquired</h4>
                   <div className="flex flex-wrap gap-2">
                     {viewingCertificate.skills.map((skill, index) => (
@@ -827,25 +869,17 @@ const CertificatesSection = ({ isDarkMode = true }) => {
           </div>
         </div>
       )}
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-10px) rotate(180deg); }
-        }
-        @keyframes scan {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100%); }
-        }
-      `}</style>
+      
+
     </section>
   );
 };
 
+
 const Portfolio = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [formData, setFormData] = useState({
   name: '',
   email: '',
@@ -853,6 +887,7 @@ const Portfolio = () => {
 });
 const [isSubmitting, setIsSubmitting] = useState(false);
 const [submitStatus, setSubmitStatus] = useState(null);
+
   useEffect(() => {
     setIsLoaded(true);
     const handleMouseMove = (e) => {
@@ -861,6 +896,7 @@ const [submitStatus, setSubmitStatus] = useState(null);
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
      };
@@ -871,13 +907,16 @@ const [submitStatus, setSubmitStatus] = useState(null);
     [name]: value
   }));
 };
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   setIsSubmitting(true);
   setSubmitStatus(null);
+  
   try {
-    // ð¥ REPLACE 'YOUR_FORM_ID' WITH YOUR ACTUAL FORMSPREE FORM ID
+    // 🔥 REPLACE 'YOUR_FORM_ID' WITH YOUR ACTUAL FORMSPREE FORM ID
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mgvznzqn';
+    
     const response = await fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -892,6 +931,7 @@ const handleSubmit = async (e) => {
         _subject: `Portfolio Contact from ${formData.name}`
       })
     });
+
     if (response.ok) {
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '' });
@@ -899,6 +939,7 @@ const handleSubmit = async (e) => {
     } else {
       throw new Error('Failed to send email');
     }
+    
   } catch (error) {
     console.error('Form submission error:', error);
     setSubmitStatus('error');
@@ -906,7 +947,9 @@ const handleSubmit = async (e) => {
   } finally {
     setIsSubmitting(false);
   }
+  
 };
+
   const skills = [
     { name: 'React', level: 95, color: 'from-cyan-400 to-blue-500', neon: 'shadow-[0_0_30px_rgba(6,182,212,0.5)]' },
     { name: 'JavaScript (ES6+)', level: 92, color: 'from-yellow-400 to-orange-500', neon: 'shadow-[0_0_30px_rgba(251,191,36,0.5)]' },
@@ -917,6 +960,7 @@ const handleSubmit = async (e) => {
     { name: 'Redux Toolkit & Zustand', level: 83, color: 'from-purple-400 to-pink-500', neon: 'shadow-[0_0_30px_rgba(168,85,247,0.5)]' },
     { name: 'Socket.io & WebRTC', level: 80, color: 'from-rose-400 to-red-500', neon: 'shadow-[0_0_30px_rgba(244,63,94,0.5)]' }
   ];
+
   const projects = [
     {
       id: 1,
@@ -964,6 +1008,7 @@ const handleSubmit = async (e) => {
       complexity: 'Expert'
     }
   ];
+
   const ThemeToggle = () => (
     <button
       onClick={toggleTheme}
@@ -992,6 +1037,7 @@ const handleSubmit = async (e) => {
       }`}></div>
     </button>
   );
+
   const SkillBar = ({ skill, index }) => (
     <div className={`mb-8 transform transition-all duration-1000 ${isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`} style={{ transitionDelay: `${index * 100}ms` }}>
       <div className="flex justify-between mb-3">
@@ -1009,6 +1055,7 @@ const handleSubmit = async (e) => {
           <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
           <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white/40 to-transparent animate-ping"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 animate-pulse" style={{ animationDuration: '2s' }}></div>
+          
           {/* Neon glow effect */}
           <div className={`absolute inset-0 bg-gradient-to-r ${skill.color} rounded-full blur-sm opacity-50 animate-pulse`}></div>
           <div className={`absolute inset-0 bg-gradient-to-r ${skill.color} rounded-full blur-md opacity-30 animate-pulse`} style={{ animationDelay: '0.5s' }}></div>
@@ -1016,8 +1063,10 @@ const handleSubmit = async (e) => {
       </div>
     </div>
   );
+
   const ProjectCard = ({ project, index }) => {
     const [isHovered, setIsHovered] = useState(false);
+    
     const getGlowClass = (color) => {
       const glowMap = {
         cyan: 'shadow-[0_0_50px_rgba(6,182,212,0.3)] hover:shadow-[0_0_80px_rgba(6,182,212,0.5)]',
@@ -1029,6 +1078,7 @@ const handleSubmit = async (e) => {
       };
       return glowMap[color] || glowMap.cyan;
     };
+
     return (
       <div 
         className={`group relative ${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-700 hover:-translate-y-6 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'} ${getGlowClass(project.glowColor)}`} 
@@ -1038,6 +1088,7 @@ const handleSubmit = async (e) => {
       >
         {/* Animated background glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+        
         {/* Complexity Badge */}
         <div className="absolute top-4 left-4 z-20">
           <div className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border ${
@@ -1048,9 +1099,11 @@ const handleSubmit = async (e) => {
             {project.complexity}
           </div>
         </div>
+        
         <div className={`h-64 relative overflow-hidden bg-gradient-to-br ${project.image}`}>
           <div className={`absolute inset-0 ${isDarkMode ? 'bg-black/40 group-hover:bg-black/20' : 'bg-white/40 group-hover:bg-white/20'} transition-all duration-500`} />
           <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-t from-black/60 to-transparent' : 'bg-gradient-to-t from-white/60 to-transparent'}`} />
+          
           {/* Floating particles animation */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             {[...Array(12)].map((_, i) => (
@@ -1066,6 +1119,7 @@ const handleSubmit = async (e) => {
               />
             ))}
           </div>
+          
           {/* Stats in header */}
           <div className="absolute top-4 right-4 flex gap-2 z-10">
             <div className={`${isDarkMode ? 'bg-black/70' : 'bg-white/70'} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-yellow-500/50 hover:border-yellow-400 transition-colors animate-pulse`}>
@@ -1081,6 +1135,7 @@ const handleSubmit = async (e) => {
               <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{project.stats.views}</span>
             </div>
           </div>
+          
           {/* Tech icons floating animation */}
           <div className="absolute bottom-4 left-4 flex gap-2">
             {project.techIcons.map((Icon, iconIndex) => (
@@ -1093,18 +1148,22 @@ const handleSubmit = async (e) => {
               </div>
             ))}
           </div>
+          
           {/* Scanning line effect */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
                style={{ animation: isHovered ? 'scan 2s linear infinite' : 'none' }}></div>
         </div>
+        
         <div className="p-6 relative">
           <h3 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 transition-all duration-500 flex items-center gap-2`}>
             {project.title}
             <Sparkles size={20} className="text-cyan-400 opacity-0 group-hover:opacity-100 animate-spin transition-opacity duration-500" />
           </h3>
+          
           <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-4 leading-relaxed group-hover:${isDarkMode ? 'text-gray-100' : 'text-gray-900'} transition-colors duration-300`}>
             {project.description}
           </p>
+          
           {/* Features showcase */}
           <div className="mb-4">
             <p className="text-sm font-semibold text-cyan-400 mb-2 animate-pulse">Key Features:</p>
@@ -1117,6 +1176,7 @@ const handleSubmit = async (e) => {
               ))}
             </div>
           </div>
+          
           <div className="mb-6">
             <p className="text-sm font-semibold text-cyan-400 mb-3 animate-pulse">
               Role: <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-normal`}>{project.role}</span>
@@ -1133,6 +1193,7 @@ const handleSubmit = async (e) => {
               ))}
             </div>
           </div>
+          
           {/* Enhanced buttons */}
           <div className="flex gap-3">
             <a
@@ -1152,12 +1213,14 @@ const handleSubmit = async (e) => {
               <span className="relative z-10 font-semibold">Live Demo</span>
             </a>
           </div>
+          
           {/* User count indicator */}
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500">
             <Users size={14} className="animate-pulse" />
             <span>{project.stats.users} active users</span>
           </div>
         </div>
+        
         {/* Floating glow orbs */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400/50 rounded-full blur-sm animate-ping"></div>
@@ -1167,12 +1230,15 @@ const handleSubmit = async (e) => {
       </div>
     );
   };
+
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100'} relative transition-all duration-500 overflow-x-hidden`}>
       <ThemeToggle />
+
       {/* Enhanced Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute inset-0 ${isDarkMode ? 'bg-[linear-gradient(rgba(6,182,212,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.1)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)]'} bg-[size:50px_50px] animate-pulse`}></div>
+        
         {/* Mouse follower with enhanced neon effect */}
         <div 
           className="absolute w-96 h-96 rounded-full mix-blend-screen filter blur-3xl transition-all duration-300 ease-out animate-pulse"
@@ -1184,13 +1250,16 @@ const handleSubmit = async (e) => {
               : 'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(147,51,234,0.2) 30%, rgba(236,72,153,0.15) 60%, rgba(251,191,36,0.1) 100%)'
           }}
         />
+        
         {/* Multiple floating orbs with different animations */}
         <div className={`absolute top-20 left-20 w-72 h-72 ${isDarkMode ? 'bg-gradient-to-r from-cyan-500/15 to-blue-500/15' : 'bg-gradient-to-r from-cyan-500/8 to-blue-500/8'} rounded-full mix-blend-screen filter blur-2xl animate-pulse`} style={{ animation: 'float 8s ease-in-out infinite' }}></div>
         <div className={`absolute top-40 right-20 w-96 h-96 ${isDarkMode ? 'bg-gradient-to-r from-purple-500/15 to-pink-500/15' : 'bg-gradient-to-r from-purple-500/8 to-pink-500/8'} rounded-full mix-blend-screen filter blur-2xl animate-pulse`} style={{ animation: 'float 10s ease-in-out infinite reverse' }}></div>
         <div className={`absolute bottom-20 left-1/3 w-80 h-80 ${isDarkMode ? 'bg-gradient-to-r from-emerald-500/15 to-teal-500/15' : 'bg-gradient-to-r from-emerald-500/8 to-teal-500/8'} rounded-full mix-blend-screen filter blur-2xl animate-pulse`} style={{ animation: 'float 12s ease-in-out infinite' }}></div>
         <div className={`absolute top-1/2 right-1/3 w-64 h-64 ${isDarkMode ? 'bg-gradient-to-r from-yellow-500/15 to-orange-500/15' : 'bg-gradient-to-r from-yellow-500/8 to-orange-500/8'} rounded-full mix-blend-screen filter blur-2xl animate-pulse`} style={{ animation: 'float 9s ease-in-out infinite reverse' }}></div>
+        
         {/* Scanning lines */}
         <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-blue-500/3 to-transparent'}`} style={{ animation: 'scan 6s linear infinite' }}></div>
+        
         {/* Enhanced stars with twinkling */}
         {isDarkMode && [...Array(30)].map((_, i) => (
           <div
@@ -1207,32 +1276,47 @@ const handleSubmit = async (e) => {
           />
         ))}
       </div>
+
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center">
         <div className="container mx-auto px-6 py-8">
           <nav className="flex justify-between items-center mb-12">
             <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse relative">
-              <span className="inline-block animate-bounce"><</span>
+              <span className="inline-block animate-bounce">&lt;</span>
               WELLCOME TO MY PORTFOLIO
               <span className="inline-block animate-bounce" style={{ animationDelay: '0.1s' }}>/</span>
-              <span className="inline-block animate-bounce" style={{ animationDelay: '0.2s' }}>></span>
+              <span className="inline-block animate-bounce" style={{ animationDelay: '0.2s' }}>&gt;</span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
             </div>
           </nav>
+
           <div className="text-center">
             {/* Enhanced Profile Picture with multiple glow layers */}
-            <div className="w-40 h-40 mx-auto mb-8 relative group">
-              <div className="w-full h-full rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 p-1 shadow-2xl shadow-cyan-500/50 animate-pulse group-hover:animate-spin transition-all duration-1000 relative z-10">
+            <div className="w-48 h-48 mx-auto mb-8 relative group">
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 p-1 shadow-2xl shadow-cyan-500/50 animate-pulse transition-all duration-1000 relative z-10">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gray-800 flex items-center justify-center">
-                  <div className="w-full h-full bg-gradient-to-br from-slate-700 via-gray-800 to-slate-900 rounded-full flex items-center justify-center text-white text-6xl font-bold">
+              <img
+                    src="https://github.com/Fayaz-24.png"
+                    alt="Fayaz's GitHub Profile"
+                    className="w-full h-full rounded-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="w-full h-full bg-gradient-to-br from-slate-700 via-gray-800 to-slate-900 rounded-full flex items-center justify-center text-white text-6xl font-bold" style={{ display: 'none' }}>
                     F
                   </div>
                 </div>
               </div>
+              
               {/* Multiple glow layers for enhanced neon effect */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-xl opacity-50 animate-pulse"></div>
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-2xl opacity-25 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-3xl opacity-15 animate-pulse" style={{ animationDelay: '1s' }}></div>
+              
+              
+              
               {/* Orbiting elements with enhanced animations */}
               <div className="absolute inset-0" style={{ animation: 'spin 20s linear infinite' }}>
                 <div className="absolute -top-6 left-1/2 w-4 h-4 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50 animate-pulse"></div>
@@ -1240,9 +1324,11 @@ const handleSubmit = async (e) => {
                 <div className="absolute -bottom-6 left-1/2 w-4 h-4 bg-pink-400 rounded-full shadow-lg shadow-pink-400/50 animate-pulse" style={{ animationDelay: '1s' }}></div>
                 <div className="absolute top-1/2 -left-6 w-3 h-3 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
               </div>
+              
               <div className="absolute inset-0 rounded-full border-2 border-cyan-400/30 animate-ping"></div>
               <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-ping" style={{ animationDelay: '1s' }}></div>
             </div>
+            
             <h1 className={`text-6xl md:text-7xl font-bold mb-6 transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <span className={`${isDarkMode ? 'text-white' : 'text-gray-900'} relative`}>
                 Hello, I'm Fayaz
@@ -1254,19 +1340,22 @@ const handleSubmit = async (e) => {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent blur-sm opacity-50 -z-10"></div>
               </span>
             </h1>
+            
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
               Full Stack Developer
             </h2>
+            
             <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-3xl mx-auto leading-relaxed mb-8 transition-all duration-1000 delay-300 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               Specialized in <span className="text-purple-400 font-semibold animate-pulse">MERN Stack</span> development.
               I craft exceptional digital experiences using 
               <span className="text-cyan-400 font-semibold animate-pulse"> MongoDB, Express.js, React, and Node.js</span>.
               Passionate about creating scalable, user-friendly applications that solve real-world problems.
             </p>
+            
             <div className={`flex flex-wrap justify-center gap-4 mt-10 transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <a
                 href="#contact"
-                className="group relative flex items-center gap-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-8 py-4 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-cyan-600/50 hover:shadow-cyan-500/50 overflow-hidden font-bold text-lg"
+                className="group relative flex items-center gap-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-10 py-5 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-cyan-600/50 hover:shadow-cyan-500/50 overflow-hidden font-bold text-xl"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 <span className="relative z-10">Download Resume</span>
@@ -1279,6 +1368,7 @@ const handleSubmit = async (e) => {
                 <span className="relative z-10">View My Work</span>
               </a>
             </div>
+            
             <div className={`flex flex-wrap justify-center gap-4 mt-8 transition-all duration-1000 delay-700 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <a
                 href="https://github.com/fayaz-24"
@@ -1308,6 +1398,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+
       {/* About Section */}
       <section id="about" className="relative z-10 py-20">
         <div className="container mx-auto px-6">
@@ -1319,6 +1410,7 @@ const handleSubmit = async (e) => {
               </span>
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-16 rounded-full animate-pulse"></div>
+            
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
                 <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl p-8 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/10 relative overflow-hidden`}>
@@ -1336,6 +1428,7 @@ const handleSubmit = async (e) => {
                       />
                     ))}
                   </div>
+                  
                   <div className="flex items-center gap-4 mb-6 relative z-10">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse">
                       <Zap className="text-white" size={24} />
@@ -1363,6 +1456,7 @@ const handleSubmit = async (e) => {
                   </div>
                 </div>
               </div>
+              
               <div className="space-y-6">
                 <div className={`bg-gradient-to-br ${isDarkMode ? 'from-cyan-600/20 to-purple-600/20' : 'from-cyan-600/10 to-purple-600/10'} backdrop-blur-sm rounded-2xl p-8 ${isDarkMode ? 'text-white' : 'text-gray-900'} border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20`}>
                   <h3 className="text-2xl font-bold mb-6 text-cyan-300 flex items-center gap-2">
@@ -1387,6 +1481,7 @@ const handleSubmit = async (e) => {
                     ))}
                   </div>
                 </div>
+                
                 <div className="grid grid-cols-2 gap-4">
                   <div className={`bg-gradient-to-br ${isDarkMode ? 'from-emerald-600/20 to-teal-600/20' : 'from-emerald-600/10 to-teal-600/10'} backdrop-blur-sm rounded-xl p-6 text-center border border-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300 hover:scale-105 group relative`}>
                     <div className="text-3xl font-bold text-emerald-400 mb-2 animate-pulse group-hover:animate-bounce">100%</div>
@@ -1404,6 +1499,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+
       {/* Skills Section */}
       <section id="skills" className="relative z-10 py-20">
         <div className="container mx-auto px-6">
@@ -1415,9 +1511,11 @@ const handleSubmit = async (e) => {
               </span>
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-16 rounded-full animate-pulse"></div>
+            
             <div className="grid lg:grid-cols-2 gap-12">
               <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-2xl p-8 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 relative overflow-hidden hover:shadow-[0_0_50px_rgba(6,182,212,0.3)]`}>
                 <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5' : 'bg-gradient-to-r from-cyan-500/3 via-purple-500/3 to-pink-500/3'}`} style={{ animation: 'float 10s ease-in-out infinite' }}></div>
+                
                 <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-8 flex items-center gap-3 relative z-10`}>
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse">
                     <Code className="text-white" size={20} />
@@ -1430,6 +1528,7 @@ const handleSubmit = async (e) => {
                   ))}
                 </div>
               </div>
+              
               <div className="space-y-6">
                 <div className={`bg-gradient-to-br ${isDarkMode ? 'from-blue-600/20 to-purple-600/20' : 'from-blue-600/10 to-purple-600/10'} backdrop-blur-sm rounded-2xl p-8 ${isDarkMode ? 'text-white' : 'text-gray-900'} border border-blue-500/30 hover:border-blue-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/20 relative overflow-hidden`}>
                   <div className="absolute inset-0 opacity-5">
@@ -1462,6 +1561,7 @@ const handleSubmit = async (e) => {
                     ))}
                   </div>
                 </div>
+                
                 <div className={`bg-gradient-to-br ${isDarkMode ? 'from-green-600/20 to-teal-600/20' : 'from-green-600/10 to-teal-600/10'} backdrop-blur-sm rounded-2xl p-8 ${isDarkMode ? 'text-white' : 'text-gray-900'} border border-green-500/30 hover:border-green-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 relative overflow-hidden`}>
                   <div className="absolute inset-0 opacity-5">
                     {[...Array(8)].map((_, i) => (
@@ -1498,6 +1598,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+
       {/* Enhanced Projects Section */}
       <section id="projects" className="relative z-10 py-20">
         <div className="container mx-auto px-6">
@@ -1515,11 +1616,13 @@ const handleSubmit = async (e) => {
               <span className="text-purple-400 font-semibold animate-pulse">real-time features</span>, and 
               <span className="text-emerald-400 font-semibold animate-pulse">cutting-edge technologies</span>.
             </p>
+            
             <div className="grid lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-8">
               {projects.map((project, index) => (
                 <ProjectCard key={project.id} project={project} index={index} />
               ))}
             </div>
+            
             {/* Additional Project Stats */}
             <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
@@ -1541,11 +1644,12 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
-      
+
       {/* Certificates Section */}
       <CertificatesSection isDarkMode={isDarkMode} />
-      
-      <CommentSection isDarkMode={isDarkMode} />         
+
+ <CommentSection isDarkMode={isDarkMode} />
+
       {/* Contact Form Section */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-6">
@@ -1563,6 +1667,7 @@ const handleSubmit = async (e) => {
                 Let's connect and create <span className="text-purple-400 font-semibold animate-pulse">extraordinary digital experiences</span> together!
               </p>
             </div>
+            
             {/* Contact Form Card */}
             <div className={`${isDarkMode ? 'bg-gray-900/50' : 'bg-white/80'} backdrop-blur-sm rounded-3xl p-8 md:p-12 border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} hover:border-cyan-500/50 transition-all duration-500 shadow-2xl hover:shadow-cyan-500/20 relative overflow-hidden`}>
               {/* Background Effects */}
@@ -1581,6 +1686,7 @@ const handleSubmit = async (e) => {
                   />
                 ))}
               </div>
+              
               {/* Form Header */}
               <div className="flex items-center gap-4 mb-8 relative z-10">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center animate-pulse shadow-lg shadow-cyan-500/25">
@@ -1590,6 +1696,7 @@ const handleSubmit = async (e) => {
                   Send Me a Message
                 </h3>
               </div>
+              
               {/* Contact Form */}
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                 {/* Success/Error Messages */}
@@ -1612,6 +1719,7 @@ const handleSubmit = async (e) => {
                     )}
                   </div>
                 )}
+                
                 {/* Name Input */}
                 <div className="group">
                   <input
@@ -1625,6 +1733,7 @@ const handleSubmit = async (e) => {
                     disabled={isSubmitting}
                   />
                 </div>
+                
                 {/* Email Input */}
                 <div className="group">
                   <input
@@ -1638,6 +1747,7 @@ const handleSubmit = async (e) => {
                     disabled={isSubmitting}
                   />
                 </div>
+                
                 {/* Message Textarea */}
                 <div className="group">
                   <textarea
@@ -1651,6 +1761,7 @@ const handleSubmit = async (e) => {
                     disabled={isSubmitting}
                   ></textarea>
                 </div>
+                
                 {/* Submit Button */}
                 <button
                   type="submit"
@@ -1677,6 +1788,7 @@ const handleSubmit = async (e) => {
                   </span>
                 </button>
               </form>
+              
               {/* Decorative Elements */}
               <div className="absolute top-6 right-6 w-20 h-20 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl animate-pulse"></div>
               <div className="absolute bottom-6 left-6 w-16 h-16 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
@@ -1684,6 +1796,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+
       {/* Contact Section */}
       <section id="contact" className="relative z-10 py-20">
         <div className="container mx-auto px-6">
@@ -1699,6 +1812,7 @@ const handleSubmit = async (e) => {
               Ready to collaborate on <span className="text-cyan-400 font-semibold animate-pulse">innovative projects</span>? 
               Let's connect and create <span className="text-purple-400 font-semibold animate-pulse">extraordinary digital experiences</span> together!
             </p>
+            
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
@@ -1745,6 +1859,7 @@ const handleSubmit = async (e) => {
                   style={{ transitionDelay: `${index * 200}ms` }}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-r ${contact.gradient} rounded-2xl opacity-0 group-hover:opacity-20 blur transition-all duration-500 -z-10`}></div>
+                  
                   {/* Floating particles animation */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     {[...Array(6)].map((_, i) => (
@@ -1760,8 +1875,10 @@ const handleSubmit = async (e) => {
                       />
                     ))}
                   </div>
+                  
                   <div className={`w-20 h-20 mx-auto mb-6 bg-gradient-to-br ${contact.gradient} rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-500 ${contact.shadow} group-hover:animate-pulse relative z-10`}>
                     <contact.icon className="text-white" size={32} />
+                    
                     {/* Icon glow effect */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${contact.gradient} rounded-full blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-500`}></div>
                   </div>
@@ -1771,11 +1888,13 @@ const handleSubmit = async (e) => {
                   <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} group-hover:${isDarkMode ? 'text-gray-100' : 'text-gray-900'} transition-colors duration-300 text-lg relative z-10`}>
                     {contact.subtitle}
                   </p>
+                  
                   {/* Hover border glow */}
                   <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-cyan-400/30 transition-all duration-500"></div>
                 </a>
               ))}
             </div>
+            
             {/* Call to Action Section */}
             <div className={`mt-16 p-8 bg-gradient-to-r ${isDarkMode ? 'from-cyan-600/10 via-purple-600/10 to-pink-600/10' : 'from-cyan-600/5 via-purple-600/5 to-pink-600/5'} backdrop-blur-sm rounded-2xl border border-cyan-500/20 relative overflow-hidden`}>
               <div className="absolute inset-0 opacity-10">
@@ -1792,12 +1911,14 @@ const handleSubmit = async (e) => {
                   />
                 ))}
               </div>
+              
               <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-4 relative z-10`}>
                 Ready to Collaborate?
               </h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-8 text-lg relative z-10`}>
                 Let's transform your ideas into cutting-edge digital solutions!
               </p>
+              
               {/* Animated call-to-action buttons */}
               <div className="flex flex-wrap justify-center gap-4 relative z-10">
                 <button className="group relative flex items-center gap-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-8 py-4 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/50 overflow-hidden font-bold text-lg">
@@ -1805,12 +1926,14 @@ const handleSubmit = async (e) => {
                   <Rocket size={20} className="relative z-10 group-hover:rotate-12 transition-transform" />
                   <span className="relative z-10">Start a Project</span>
                 </button>
+                
                 <button className={`group relative flex items-center gap-3 ${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50' : 'bg-white/50 hover:bg-gray-100/50'} ${isDarkMode ? 'text-white' : 'text-gray-900'} px-8 py-4 rounded-full transition-all duration-500 hover:scale-110 border ${isDarkMode ? 'border-gray-600/50' : 'border-gray-300/50'} shadow-lg backdrop-blur-sm font-bold text-lg overflow-hidden`}>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   <Mail size={20} className="relative z-10 group-hover:rotate-12 transition-transform" />
                   <span className="relative z-10">Get in Touch</span>
                 </button>
               </div>
+              
               {/* Bouncing indicators */}
               <div className="flex justify-center gap-4 mt-8 relative z-10">
                 <div className="w-3 h-3 bg-cyan-400 rounded-full animate-bounce shadow-lg shadow-cyan-400/50"></div>
@@ -1821,6 +1944,7 @@ const handleSubmit = async (e) => {
           </div>
         </div>
       </section>
+
       {/* Footer */}
       <footer className="relative z-10 py-12 border-t border-gray-700/50">
         <div className="container mx-auto px-6">
@@ -1849,31 +1973,37 @@ const handleSubmit = async (e) => {
               ))}
             </div>
             <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-              © 2024 Fayaz. Crafted with ❤️ and lots of ☕
+              © 2024 Fayaz. Crafted with ?? and lots of ?
             </p>
           </div>
         </div>
       </footer>
+
       {/* Custom CSS Animations */}
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(180deg); }
         }
+        
         @keyframes scan {
           0% { transform: translateY(-100%); }
           100% { transform: translateY(100vh); }
         }
+        
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
+        
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
+        
         .animate-scan {
           animation: scan 4s linear infinite;
         }
+        
         .animate-spin-slow {
           animation: spin 20s linear infinite;
         }
@@ -1881,4 +2011,5 @@ const handleSubmit = async (e) => {
     </div>
   );
 };
+
 export default Portfolio;
