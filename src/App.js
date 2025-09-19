@@ -154,7 +154,7 @@ const CommentSection = ({ isDarkMode = true }) => {
         <div className="flex items-start gap-4 mb-4">
           {/* Avatar with gradient border */}
           <div className="relative">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 p-0.5 animate-pulse group-hover:animate-spin transition-all duration-1000">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 p-0.5 animate-pulse transition-all duration-1000">
               <div className={`w-full h-full rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-white'} flex items-center justify-center text-sm font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 {comment.avatar}
               </div>
@@ -338,7 +338,7 @@ return (
               }`}>
                 {submitStatus === 'success' ? (
                   <>
-                    <Sparkles size={20} className="animate-spin" />
+                    <Sparkles size={20} />
                     <span>Comment posted successfully! Thanks for your feedback.</span>
                   </>
                 ) : (
@@ -1049,16 +1049,9 @@ const handleSubmit = async (e) => {
       </div>
       <div className={`relative w-full ${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-200/50'} rounded-full h-4 overflow-hidden border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} backdrop-blur-sm`}>
         <div
-          className={`h-full bg-gradient-to-r ${skill.color} rounded-full transition-all duration-2000 ease-out relative overflow-hidden ${skill.neon}`}
-          style={{ width: isLoaded ? `${skill.level}%` : '0%' }}
+          className={`h-full bg-gradient-to-r ${skill.color} rounded-full transition-all duration-2000 ease-out relative overflow-hidden`}
         >
-          <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
-          <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white/40 to-transparent animate-ping"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 animate-pulse" style={{ animationDuration: '2s' }}></div>
-          
-          {/* Neon glow effect */}
-          <div className={`absolute inset-0 bg-gradient-to-r ${skill.color} rounded-full blur-sm opacity-50 animate-pulse`}></div>
-          <div className={`absolute inset-0 bg-gradient-to-r ${skill.color} rounded-full blur-md opacity-30 animate-pulse`} style={{ animationDelay: '0.5s' }}></div>
+          {/* Removed inner CSS for animated background glow and neon glow */}
         </div>
       </div>
     </div>
@@ -1310,23 +1303,7 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
               
-              {/* Multiple glow layers for enhanced neon effect */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-xl opacity-50 animate-pulse"></div>
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-2xl opacity-25 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 blur-3xl opacity-15 animate-pulse" style={{ animationDelay: '1s' }}></div>
-              
-              
-              
-              {/* Orbiting elements with enhanced animations */}
-              <div className="absolute inset-0" style={{ animation: 'spin 20s linear infinite' }}>
-                <div className="absolute -top-6 left-1/2 w-4 h-4 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50 animate-pulse"></div>
-                <div className="absolute top-1/2 -right-6 w-3 h-3 bg-purple-400 rounded-full shadow-lg shadow-purple-400/50 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                <div className="absolute -bottom-6 left-1/2 w-4 h-4 bg-pink-400 rounded-full shadow-lg shadow-pink-400/50 animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 -left-6 w-3 h-3 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-              </div>
-              
-              <div className="absolute inset-0 rounded-full border-2 border-cyan-400/30 animate-ping"></div>
-              <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-ping" style={{ animationDelay: '1s' }}></div>
+              {/* Removed inner rotating/spinning CSS and orbiting elements for MERN Stack Technologies section */}
             </div>
             
             <h1 className={`text-6xl md:text-7xl font-bold mb-6 transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
@@ -1354,7 +1331,8 @@ const handleSubmit = async (e) => {
             
             <div className={`flex flex-wrap justify-center gap-4 mt-10 transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <a
-                href="#contact"
+                href="/resumefai.pdf"
+                download="Fayaz_Resume.pdf"
                 className="group relative flex items-center gap-3 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-10 py-5 rounded-full transition-all duration-500 hover:scale-110 shadow-lg shadow-cyan-600/50 hover:shadow-cyan-500/50 overflow-hidden font-bold text-xl"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -1522,12 +1500,13 @@ const handleSubmit = async (e) => {
                   </div>
                   MERN Stack Technologies
                 </h3>
-                <div className="relative z-10">
+              <div className="relative z-10">
                   {skills.map((skill, index) => (
                     <SkillBar key={index} skill={skill} index={index} />
                   ))}
                 </div>
               </div>
+              {/* Removed inner animated background glow and neon glow effects for MERN Stack Technologies section */}
               
               <div className="space-y-6">
                 <div className={`bg-gradient-to-br ${isDarkMode ? 'from-blue-600/20 to-purple-600/20' : 'from-blue-600/10 to-purple-600/10'} backdrop-blur-sm rounded-2xl p-8 ${isDarkMode ? 'text-white' : 'text-gray-900'} border border-blue-500/30 hover:border-blue-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/20 relative overflow-hidden`}>
